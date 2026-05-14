@@ -21,4 +21,8 @@ class GameObject {
         return myPosition;
     }
 
+    public int getZIndex() {
+        return mySprite.getZIndex();
+    }
+
 }

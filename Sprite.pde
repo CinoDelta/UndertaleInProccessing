@@ -16,4 +16,8 @@ class Sprite {
     public void setImage(String imgDirect) {
         img = loadImage(imgDirect);
     }
+
+    public int getZIndex() {
+        return zIndex;
+    }
 }

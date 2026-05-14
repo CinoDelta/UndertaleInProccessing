@@ -15,7 +15,7 @@ GameObject[] merge(GameObject[] left, GameObject[] right) {
         } else if (!(l < left.length)){
         newArray[i]  = right[r];
         r ++;
-        } else if (left[l] <= right[r]) {
+        } else if (left[l].getZIndex() <= right[r].getZIndex()) {
         newArray[i] = left[l];
         l ++;
         } else {
@@ -27,11 +27,11 @@ GameObject[] merge(GameObject[] left, GameObject[] right) {
 }
 
 
-int[] mergeSort(int[] data){
+GameObject[] mergeSort(GameObject[] data){
     if (data.length > 1) {
         // Hi we split data in half.
-        int[] arrOne = new int[data.length / 2];
-        int[] arrTwo = new int[data.length - arrOne.length];
+        GameObject[] arrOne = new GameObject[data.length / 2];
+        GameObject[] arrTwo = new GameObject[data.length - arrOne.length];
 
         for (int i = 0; i < data.length; i ++) {
         if (i < arrOne.length) {
@@ -48,6 +48,7 @@ int[] mergeSort(int[] data){
 
 GameObject[] sortWorldByZ() {
     GameObject[] startArray = gameWorld.toArray(new GameObject[gameWorld.size()]);
+    return null; //TODO pls do not make this return null ty
     // enact MergeSort
 }
 
