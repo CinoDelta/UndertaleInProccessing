@@ -1,5 +1,8 @@
 import java.util.*;
 
+// Hitbox Layers:
+// 0 is Player
+// 1 is hitboxes that the player ignores
 ArrayDeque<GameObject> gameWorld = new ArrayDeque<GameObject>();
 
 GameObject[] merge(GameObject[] left, GameObject[] right) {
@@ -53,7 +56,14 @@ GameObject[] sortWorldByZ() {
 }
 
 
-void setup() {
+void setup() {  
+    size(640, 480);
+    background(255,255,255);
+
+    // Create the player.
+
+    PImage playerImage = loadImage("");
+    Player mainPlayer = new Player(new Sprite(0, playerImage), new Hitbox(10, 7, 0, 1, new PVector(0, 7.5)), new PVector(0, 0), true, "BORDER_M", "", 0);
 
 }
 
