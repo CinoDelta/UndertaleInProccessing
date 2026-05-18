@@ -16,6 +16,8 @@ class GameObject {
         this.isVisible = isVisible;
         this.cameraMode = cameraMode;
         this.myParent = myParent;
+
+        gameWorld.add(this);
     }
 
     public PVector getPosition() {
@@ -31,7 +33,7 @@ class GameObject {
     }
 
     public void remove() {
-        removeMyself = true;
+        gameWorld.remove(this);
     }
 
     public void changeImage(String path) {
@@ -40,6 +42,7 @@ class GameObject {
 
     public void update() {
         myHitbox.setOriginPoint(myPosition);
+        image(mySprite.getImage(), myPosition.x, myPosition.y);
     }
 
 

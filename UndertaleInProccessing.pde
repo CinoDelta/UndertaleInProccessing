@@ -49,10 +49,10 @@ GameObject[] mergeSort(GameObject[] data){
     }
 }
 
-GameObject[] sortWorldByZ() {
+void sortWorldByZ() {
     GameObject[] startArray = gameWorld.toArray(new GameObject[gameWorld.size()]);
-    return null; //TODO pls do not make this return null ty
-    // enact MergeSort
+
+    startArray = mergeSort(startArray);
 }
 
 
@@ -62,13 +62,20 @@ void setup() {
 
     // Create the player.
 
-    PImage playerImage = loadImage("");
+    PImage playerImage = loadImage("Sprites/Frisk/FriskDown0.png");
     Player mainPlayer = new Player(new Sprite(0, playerImage), new Hitbox(10, 7, 0, 1, new PVector(0, 7.5)), new PVector(0, 0), true, "BORDER_M", "", 0);
 
 }
 
 void draw() {
 
+    // Draw every thing in the game world by order, with the correct sprite.
+
+
+
+    for (GameObject object : gameWorld) {
+        object.update();
+    }
 }
 
 
