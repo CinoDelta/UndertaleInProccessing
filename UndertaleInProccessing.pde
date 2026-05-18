@@ -69,6 +69,7 @@ void setup() {
 
 void draw() {
 
+    background(255, 255, 255);
     // Draw every thing in the game world by order, with the correct sprite.
 
 
