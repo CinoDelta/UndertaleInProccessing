@@ -3,9 +3,13 @@ class Player extends GameObject {
         private boolean canMove; 
         private String currentImage;
         private PVector direction;
+        private PVector myPosition;
+
+
 
         public Player(Sprite mySprite, Hitbox myHitbox, PVector myPosition, boolean isVisible, String cameraMode, String myParent, int zIndex) {
          super(mySprite,  myHitbox, myPosition, isVisible, cameraMode, myParent);
+         this.myPosition = myPosition;
          currentDirection = new PVector();
          boolean canMove = false; 
          currentImage = mySprite.getImagePath();
@@ -20,31 +24,38 @@ class Player extends GameObject {
     * 'D' for down
     * 'N' for neutral (no movement)
     */
-    public void setDirection(char direction) {
-        switch (direction) {
-            case 'R':
-                this.direction.x = 0.1;
+    public void setDirection(int code) {
+        switch (code) {
+            case RIGHT:
+                this.direction.x = PlayerConstants.SPEED;
                 this.direction.y = 0.0;
                 break;
-            case 'L':
-                this.direction.x = -0.1;
+            case LEFT:
+                this.direction.x = -PlayerConstants.SPEED;
                 this.direction.y = 0.0;
                 break;
-            case 'U':
+            case DOWN:
                 this.direction.x = 0.0;
-                this.direction.y = 0.1;
+                this.direction.y = PlayerConstants.SPEED;
                 break;
-            case 'D':
+            case UP:
                 this.direction.x = 0.0;
-                this.direction.y = -0.1;
-                break;
-            case 'N':
-                this.direction.x = 0.0;
-                this.direction.y = 0.0;
+                this.direction.y = -PlayerConstants.SPEED;
                 break;
             default:
+                this.direction.x = 0.0;
+                this.direction.y = 0.0;
                 break;
         }
-        super.setPosition(getPosition().add(this.direction));
     }
-}
+
+    @Override
+    public void update() {
+        super.setPosition(super.getPosition().add(direction));
+        super.updatePos();
+    }
+ }
+
+    interface PlayerConstants {
+        float SPEED = 0.4;
+    }

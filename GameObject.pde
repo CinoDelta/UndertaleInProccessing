@@ -1,4 +1,4 @@
-class GameObject {
+public abstract class  GameObject {
 
     private Sprite mySprite;
     private Hitbox myHitbox;
@@ -7,7 +7,7 @@ class GameObject {
     private String cameraMode = "BORDER_S";
     private String myParent = "";
     private boolean removeMyself = false;
-    private PVector dirrection;
+    private PVector direction;
 
 
     public GameObject(Sprite mySprite, Hitbox myHitbox, PVector myPosition, boolean isVisible, String cameraMode, String myParent) {
@@ -18,7 +18,7 @@ class GameObject {
         this.cameraMode = cameraMode;
         this.myParent = myParent;
 
-        dirrection = new PVector();
+        direction = new PVector();
 
         gameWorld.add(this);
     }
@@ -43,12 +43,18 @@ class GameObject {
         mySprite.setImage(path);
     }
 
-    public void update() {
+    public abstract void update();
+
+    private void updatePos() {
         myHitbox.setOriginPoint(myPosition);
         image(mySprite.getImage(), myPosition.x, myPosition.y);
     }
 
     public void setDirection(PVector direction) {
-        direction = direction;
+        this.direction = direction;
+    }
+
+    public Hitbox getHitBox() {
+        return myHitbox;
     }
 }

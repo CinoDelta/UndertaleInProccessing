@@ -80,9 +80,12 @@ void draw() {
 }
 
     public void keyPressed() {
-    if (keyCode == LEFT) {
-        mainPlayer.setDirection('L');
+
+        mainPlayer.setDirection(keyCode);
     }
-}
+
+    public void keyReleased() {
+        mainPlayer.setDirection(-1);
+    }
 
 
