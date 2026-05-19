@@ -2,10 +2,12 @@ class Sprite {
     
     public int zIndex;
     private PImage img;
+    private String imgPath;
 
-    public Sprite(int zIndex, PImage img) {
+    public Sprite(int zIndex, String path) {
         this.zIndex = zIndex;
-        this.img = img;
+        imgPath = path;
+        this.img = loadImage(path);
     }
     
 
@@ -14,10 +16,15 @@ class Sprite {
     }
 
     public void setImage(String imgDirect) {
+        imgPath = imgDirect;
         img = loadImage(imgDirect);
     }
 
     public int getZIndex() {
         return zIndex;
+    }
+
+    public String getImagePath() {
+        return imgPath;
     }
 }
