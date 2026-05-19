@@ -5,6 +5,7 @@ import java.util.*;
 // 1 is hitboxes that the player ignores
 ArrayDeque<GameObject> gameWorld = new ArrayDeque<GameObject>();
 Player mainPlayer;
+Room currentGameRoom;
 
 GameObject[] merge(GameObject[] left, GameObject[] right) {
     GameObject[] newArray = new GameObject[left.length + right.length];
@@ -63,8 +64,12 @@ void setup() {
 
     // Create the player.
 
+    // z index of 0
     mainPlayer = new Player(new Sprite(0, "Sprites/Frisk/FriskDown0.png"), new Hitbox(10, 7, 0, 1, new PVector(0, 7.5)), new PVector(0, 0), true, "BORDER_M", "", 0);
 
+    // Sprite mySprite, Hitbox myHitbox, PVector myPosition, boolean isVisible, String cameraMode, String myParent,
+    //  int[][] exitXBounds, int[][] exitYBounds, int[] transitionRooms, PVector enterPosition, PVector exitPosition, int roomID
+    //currentGameRoom = new Room(new Sprite(0, "Sprite/RuinsSprites/room_1.png"), new )
 }
 
 void draw() {
