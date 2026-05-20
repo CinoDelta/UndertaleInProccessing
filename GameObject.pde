@@ -20,7 +20,7 @@ public abstract class GameObject {
         this.cameraMode = cameraMode;
         this.myParent = myParent;
 
-        dirrection = new PVector();
+        direction = new PVector();
 
         gameWorld.add(this);
     }

@@ -55,7 +55,7 @@ class Player extends GameObject {
     @Override
     public void update() {
         super.addVector(direction);
-        super.updatePos();
+        super.update();
     }
  }
 

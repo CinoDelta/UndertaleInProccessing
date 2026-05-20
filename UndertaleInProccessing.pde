@@ -3,6 +3,8 @@ import java.util.*;
 // Hitbox Layers:
 // 0 is Player
 // 1 is hitboxes that the player ignores
+
+// TODO: add how it works and description to updated doc 
 ArrayDeque<GameObject> gameWorld = new ArrayDeque<GameObject>();
 Player mainPlayer;
 Room currentGameRoom;
