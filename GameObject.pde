@@ -50,6 +50,10 @@ public abstract class  GameObject {
         image(mySprite.getImage(), myPosition.x, myPosition.y);
     }
 
+    private void addVector(PVector toAdd) {
+        myPosition.add(toAdd);
+    }
+
     public void setDirection(PVector direction) {
         this.direction = direction;
     }

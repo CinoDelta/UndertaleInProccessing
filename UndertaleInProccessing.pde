@@ -4,7 +4,7 @@ import java.util.*;
 // 0 is Player
 // 1 is hitboxes that the player ignores
 ArrayDeque<GameObject> gameWorld = new ArrayDeque<GameObject>();
-Player mainPlayer;
+private Player mainPlayer;
 
 GameObject[] merge(GameObject[] left, GameObject[] right) {
     GameObject[] newArray = new GameObject[left.length + right.length];
@@ -65,6 +65,10 @@ void setup() {
 
     mainPlayer = new Player(new Sprite(0, "Sprites/Frisk/FriskDown0.png"), new Hitbox(10, 7, 0, 1, new PVector(0, 7.5)), new PVector(0, 0), true, "BORDER_M", "", 0);
 
+}
+
+public Player getmainPlayer() {
+    return mainPlayer;
 }
 
 void draw() {

@@ -7,7 +7,7 @@ class Player extends GameObject {
 
 
 
-        public Player(Sprite mySprite, Hitbox myHitbox, PVector myPosition, boolean isVisible, String cameraMode, String myParent, int zIndex) {
+    public Player(Sprite mySprite, Hitbox myHitbox, PVector myPosition, boolean isVisible, String cameraMode, String myParent, int zIndex) {
          super(mySprite,  myHitbox, myPosition, isVisible, cameraMode, myParent);
          this.myPosition = myPosition;
          currentDirection = new PVector();
@@ -51,7 +51,7 @@ class Player extends GameObject {
 
     @Override
     public void update() {
-        super.setPosition(super.getPosition().add(direction));
+        super.addVector(direction);
         super.updatePos();
     }
  }
