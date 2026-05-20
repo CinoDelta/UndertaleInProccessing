@@ -15,10 +15,10 @@ public class Room extends GameObject {
 
 
     public Room(
-        Sprite mySprite, Hitbox myHitbox, PVector myPosition, boolean isVisible, String cameraMode, String myParent,
+        Sprite mySprite, Hitbox[] myHitboxes, PVector myPosition, boolean isVisible, String cameraMode, String myParent,
         int[][] exitXBounds, int[][] exitYBounds, int[] transitionRooms, PVector enterPosition, PVector exitPosition, int roomID) 
     {
-        super(mySprite, myHitbox, myPosition, isVisible, cameraMode, myParent);
+        super(mySprite, myHitboxes, myPosition, isVisible, cameraMode, myParent);
         this.exitXBounds = exitXBounds;
         this.exitYBounds = exitYBounds;
         this.transitionRooms = transitionRooms;

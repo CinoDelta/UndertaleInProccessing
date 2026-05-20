@@ -55,29 +55,38 @@ void sortWorldByZ() {
     GameObject[] startArray = gameWorld.toArray(new GameObject[gameWorld.size()]);
 
     startArray = mergeSort(startArray);
+    
+    gameWorld.clear();
+
+    for (GameObject object : startArray) {
+        gameWorld.add(object);
+    }
+
 }
 
 
 void setup() {  
-    size(640, 480);
+    size(640, 440);
     background(255,255,255);
 
     // Create the player.
 
     // z index of 0
-    mainPlayer = new Player(new Sprite(0, "Sprites/Frisk/FriskDown0.png"), new Hitbox(10, 7, 0, 1, new PVector(0, 7.5)), new PVector(0, 0), true, "BORDER_M", "", 0);
+    mainPlayer = new Player(new Sprite(0, "Sprites/Frisk/FriskDown0.png"), new Hitbox(10, 7, 0, 1, new PVector(0, 7.5)), new PVector(100, 100), true, "BORDER_M", "", 0);
 
     // Sprite mySprite, Hitbox myHitbox, PVector myPosition, boolean isVisible, String cameraMode, String myParent,
     //  int[][] exitXBounds, int[][] exitYBounds, int[] transitionRooms, PVector enterPosition, PVector exitPosition, int roomID
-    //currentGameRoom = new Room(new Sprite(0, "Sprite/RuinsSprites/room_1.png"), new )
+    currentGameRoom = new Room(new Sprite(-1, "Sprites/RuinsSprites/firstroom.jpeg"), new Hitbox[] { }, new PVector(0, 0), true, "BORDER_S", "", new int[][] {}, new int[][] {}, new int[] { }, new PVector(), new PVector(), 0);
+
 }
 
+boolean test = false;
 void draw() {
-
+    scale(2);
     background(255, 255, 255);
     // Draw every thing in the game world by order, with the correct sprite.
 
-
+        sortWorldByZ();
 
     for (GameObject object : gameWorld) {
         object.update();

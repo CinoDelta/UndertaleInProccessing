@@ -2,12 +2,14 @@ class GameObject {
 
     private Sprite mySprite;
     private Hitbox myHitbox;
+    private Hitbox[] myHitboxes;
     private PVector myPosition;
     private boolean isVisible = true;
     private String cameraMode = "BORDER_S";
     private String myParent = "";
     private boolean removeMyself = false;
     private PVector dirrection;
+    private boolean multipleContacts = false;
 
 
     public GameObject(Sprite mySprite, Hitbox myHitbox, PVector myPosition, boolean isVisible, String cameraMode, String myParent) {
@@ -23,12 +25,31 @@ class GameObject {
         gameWorld.add(this);
     }
 
+    public GameObject(Sprite mySprite, Hitbox[] myHitboxes, PVector myPosition, boolean isVisible, String cameraMode, String myParent) {
+        this.mySprite = mySprite;
+        this.myHitboxes = myHitboxes;
+        this.myPosition = myPosition;
+        this.isVisible = isVisible;
+        this.cameraMode = cameraMode;
+        this.myParent = myParent;
+
+        multipleContacts = true;
+        
+        dirrection = new PVector();
+
+        gameWorld.add(this);
+    }
+
     public PVector getPosition() {
         return myPosition;
     }
 
     public void setPosition(PVector newPos) {
         myPosition = newPos;
+    }
+
+    public void setZIndex(int newZIndex) {
+        mySprite.zIndex = newZIndex;
     }
 
     public int getZIndex() {
@@ -43,8 +64,20 @@ class GameObject {
         mySprite.setImage(path);
     }
 
+    public String toString() {
+        return mySprite.getImagePath();
+    }
+
     public void update() {
-        myHitbox.setOriginPoint(myPosition);
+        if (!multipleContacts) {
+            myHitbox.setOriginPoint(myPosition);
+        } else {
+            for (Hitbox box : myHitboxes) {
+                box.setOriginPoint(myPosition);
+            }
+        }
+
+        print("Drawing my image");
         image(mySprite.getImage(), myPosition.x, myPosition.y);
     }
 
