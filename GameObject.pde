@@ -8,7 +8,7 @@ class GameObject {
     private String cameraMode = "BORDER_S";
     private String myParent = "";
     private boolean removeMyself = false;
-    private PVector dirrection;
+    private PVector direction;
     private boolean multipleContacts = false;
 
 
@@ -20,7 +20,7 @@ class GameObject {
         this.cameraMode = cameraMode;
         this.myParent = myParent;
 
-        dirrection = new PVector();
+        direction = new PVector();
 
         gameWorld.add(this);
     }
@@ -35,7 +35,7 @@ class GameObject {
 
         multipleContacts = true;
         
-        dirrection = new PVector();
+        direction = new PVector();
 
         gameWorld.add(this);
     }
@@ -77,11 +77,10 @@ class GameObject {
             }
         }
 
-        print("Drawing my image");
         image(mySprite.getImage(), myPosition.x, myPosition.y);
     }
 
     public void setDirection(PVector direction) {
-        direction = direction;
+        this.direction = direction;
     }
 }
