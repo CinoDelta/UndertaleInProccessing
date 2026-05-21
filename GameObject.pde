@@ -1,13 +1,15 @@
-public abstract class  GameObject {
+public abstract class GameObject {   
 
     private Sprite mySprite;
     private Hitbox myHitbox;
+    private Hitbox[] myHitboxes;
     private PVector myPosition;
     private boolean isVisible = true;
     private String cameraMode = "BORDER_S";
     private String myParent = "";
     private boolean removeMyself = false;
     private PVector direction;
+    private boolean multipleContacts = false;
 
 
     public GameObject(Sprite mySprite, Hitbox myHitbox, PVector myPosition, boolean isVisible, String cameraMode, String myParent) {
@@ -18,6 +20,21 @@ public abstract class  GameObject {
         this.cameraMode = cameraMode;
         this.myParent = myParent;
 
+        dirrection = new PVector();
+
+        gameWorld.add(this);
+    }
+
+    public GameObject(Sprite mySprite, Hitbox[] myHitboxes, PVector myPosition, boolean isVisible, String cameraMode, String myParent) {
+        this.mySprite = mySprite;
+        this.myHitboxes = myHitboxes;
+        this.myPosition = myPosition;
+        this.isVisible = isVisible;
+        this.cameraMode = cameraMode;
+        this.myParent = myParent;
+
+        multipleContacts = true;
+        
         direction = new PVector();
 
         gameWorld.add(this);
@@ -29,6 +46,10 @@ public abstract class  GameObject {
 
     public void setPosition(PVector newPos) {
         myPosition = newPos;
+    }
+
+    public void setZIndex(int newZIndex) {
+        mySprite.zIndex = newZIndex;
     }
 
     public int getZIndex() {
@@ -43,10 +64,20 @@ public abstract class  GameObject {
         mySprite.setImage(path);
     }
 
-    public abstract void update();
+    public String toString() {
+        return mySprite.getImagePath();
+    }
 
-    private void updatePos() {
-        myHitbox.setOriginPoint(myPosition);
+    public void update() {
+        if (!multipleContacts) {
+            myHitbox.setOriginPoint(myPosition);
+        } else {
+            for (Hitbox box : myHitboxes) {
+                box.setOriginPoint(myPosition);
+            }
+        }
+
+        print("Drawing my image");
         image(mySprite.getImage(), myPosition.x, myPosition.y);
     }
 
