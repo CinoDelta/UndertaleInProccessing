@@ -95,7 +95,7 @@ void draw() {
     background(255, 255, 255);
     // Draw every thing in the game world by order, with the correct sprite.
 
-        sortWorldByZ();
+    sortWorldByZ();
 
     PVector currentPlayerDirection = new PVector();
 
@@ -118,7 +118,6 @@ public void keyPressed() {
     switch(keyCode) {
         case LEFT:
             leftPressed = true;
-           
             break;
         case RIGHT:
             rightPressed = true;
@@ -136,7 +135,6 @@ public void keyReleased() {
     switch(keyCode) {
     case LEFT:
         leftPressed = false;
-        
         break;
     case RIGHT:
         rightPressed = false;

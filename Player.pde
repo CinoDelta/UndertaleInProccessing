@@ -1,14 +1,14 @@
 class Player extends GameObject {
-        private PVector currentDirection;
-        private boolean canMove; 
-        private String currentImage;
-        private PVector direction;
-        private int zIndex;
-        private String myParent;
-        private int speed = 20;
-        private int currentAnimationTick = 0;
-        private String facing = "Down";
-        private String lastFacing = "Down";
+    private PVector currentDirection;
+    private boolean canMove; 
+    private String currentImage;
+    private PVector direction;
+    private int zIndex;
+    private String myParent;
+    private int speed = 20;
+    private int currentAnimationTick = 0;
+    private String facing = "Down";
+    private String lastFacing = "Down";
 
     public Player(Sprite mySprite, Hitbox myHitbox, PVector myPosition, boolean isVisible, String cameraMode, String myParent, int zIndex) {
         super(mySprite,  myHitbox, myPosition, isVisible, cameraMode, myParent);
@@ -28,33 +28,12 @@ class Player extends GameObject {
     * 'D' for down
     * 'N' for neutral (no movement)
     */
-    public void setDirection(int code) {
-        switch (code) {
-            case RIGHT:
-                this.direction.x = PlayerConstants.SPEED;
-                this.direction.y = 0.0;
-                break;
-            case LEFT:
-                this.direction.x = -PlayerConstants.SPEED;
-                this.direction.y = 0.0;
-                break;
-            case DOWN:
-                this.direction.x = 0.0;
-                this.direction.y = PlayerConstants.SPEED;
-                break;
-            case UP:
-                this.direction.x = 0.0;
-                this.direction.y = -PlayerConstants.SPEED;
-                break;
-            default:
-                this.direction.x = 0.0;
-                this.direction.y = 0.0;
-                break;
-        }
+    public void setDirection(PVector newDirection) {
+        this.direction = newDirection.mult((float) speed);
+        super.setPosition(getPosition().add(this.direction));
     }
 
     @Override
-    
     // the animation handler
     public void update() {
         if (!super.multipleContacts) {
@@ -94,5 +73,5 @@ class Player extends GameObject {
  }
 
     interface PlayerConstants {
-        float SPEED = 0.4;
+        float SPEED = 20;
     }
