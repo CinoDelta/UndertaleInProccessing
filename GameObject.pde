@@ -85,7 +85,7 @@ public abstract class GameObject {
     }
 
     public void setDirection(PVector direction) {
-        this.this.direction = direction;
+        this.direction = direction;
     }
 
     public Hitbox getHitBox() {
