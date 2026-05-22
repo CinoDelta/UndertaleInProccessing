@@ -70,6 +70,7 @@ void sortWorldByZ() {
 void setup() {  
     size(640, 440);
     background(255,255,255);
+    frameRate(30);
 
     // Create the player.
 
@@ -83,6 +84,12 @@ void setup() {
 }
 
 boolean test = false;
+
+boolean upPressed = false;
+boolean downPressed = false;
+boolean rightPressed = false;
+boolean leftPressed = false; 
+
 void draw() {
     scale(2);
     background(255, 255, 255);
@@ -90,18 +97,57 @@ void draw() {
 
         sortWorldByZ();
 
+    PVector currentPlayerDirection = new PVector();
+
+    currentPlayerDirection = upPressed ? PVector.add(currentPlayerDirection, new PVector(0, -0.1)) : currentPlayerDirection;
+    currentPlayerDirection = downPressed ? PVector.add(currentPlayerDirection, new PVector(0, 0.1)) : currentPlayerDirection;
+    currentPlayerDirection = leftPressed ? PVector.add(currentPlayerDirection, new PVector(-0.1, 0)) : currentPlayerDirection;
+    currentPlayerDirection = rightPressed ? PVector.add(currentPlayerDirection, new PVector(0.1, 0)) : currentPlayerDirection;
+
+    mainPlayer.setDirection(currentPlayerDirection);
+
     for (GameObject object : gameWorld) {
         object.update();
     }
+
+
+
 }
 
-    public void keyPressed() {
-
-        mainPlayer.setDirection(keyCode);
+public void keyPressed() {
+    switch(keyCode) {
+        case LEFT:
+            leftPressed = true;
+           
+            break;
+        case RIGHT:
+            rightPressed = true;
+            break;
+        case UP:
+            upPressed = true;
+            break;
+        case DOWN:
+            downPressed = true;
+            break;
     }
+}
 
-    public void keyReleased() {
-        mainPlayer.setDirection(-1);
+public void keyReleased() {
+    switch(keyCode) {
+    case LEFT:
+        leftPressed = false;
+        
+        break;
+    case RIGHT:
+        rightPressed = false;
+        break;
+    case UP:
+        upPressed = false;
+        break;
+    case DOWN:
+        downPressed = false;
+        break;
     }
+}
 
 

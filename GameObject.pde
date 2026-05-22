@@ -77,7 +77,6 @@ public abstract class GameObject {
             }
         }
 
-        print("Drawing my image");
         image(mySprite.getImage(), myPosition.x, myPosition.y);
     }
 
@@ -86,7 +85,7 @@ public abstract class GameObject {
     }
 
     public void setDirection(PVector direction) {
-        this.direction = direction;
+        this.this.direction = direction;
     }
 
     public Hitbox getHitBox() {

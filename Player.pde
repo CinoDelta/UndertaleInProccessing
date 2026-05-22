@@ -1,10 +1,15 @@
 class Player extends GameObject {
-        private PVector currentDirection;
-        private boolean canMove; 
-        private String currentImage;
-        private PVector direction;
-        private int zIndex;
-        private String myParent;
+    private PVector currentDirection;
+    private boolean canMove; 
+    private String currentImage;
+    private PVector direction;
+    private int zIndex;
+    private String myParent;
+    private int speed = 20;
+    private int currentAnimationTick = 0;
+    private String facing = "Down";
+    private String lastFacing = "Down";
+
         private PVector myPosition;
 
 
@@ -27,38 +32,48 @@ class Player extends GameObject {
     * 'D' for down
     * 'N' for neutral (no movement)
     */
-    public void setDirection(int code) {
-        switch (code) {
-            case RIGHT:
-                this.direction.x = PlayerConstants.SPEED;
-                this.direction.y = 0.0;
-                break;
-            case LEFT:
-                this.direction.x = -PlayerConstants.SPEED;
-                this.direction.y = 0.0;
-                break;
-            case DOWN:
-                this.direction.x = 0.0;
-                this.direction.y = PlayerConstants.SPEED;
-                break;
-            case UP:
-                this.direction.x = 0.0;
-                this.direction.y = -PlayerConstants.SPEED;
-                break;
-            default:
-                this.direction.x = 0.0;
-                this.direction.y = 0.0;
-                break;
-        }
+    public void setDirection(PVector newDirection) {
+        this.direction = newDirection.mult((float) speed);
+        print(this.direction.x + " " + this.direction.y);
+        super.setPosition(getPosition().add(this.direction));
     }
-
+   
     @Override
+    
+    // the animation handler
     public void update() {
-        super.addVector(direction);
-        super.update();
-    }
- }
+        if (!super.multipleContacts) {
+            super.myHitbox.setOriginPoint(super.myPosition);
+        } else {
+            for (Hitbox box : super.myHitboxes) {
+                box.setOriginPoint(super.myPosition);
+            }
+        }
 
-    interface PlayerConstants {
-        float SPEED = 0.4;
+        if (direction.mag() > 0) {
+            if (Math.abs(direction.x) == 2) { // if we are holding left or right, the left and right animations take priority.
+                facing = direction.x == -2 ? "Left" : "Right";
+                super.changeImage("Sprites/Frisk/Frisk" + facing + currentAnimationTick % 12 / 6 + ".png");
+            } else {
+                // if we are just moving up and down
+                facing = direction.y == -2 ? "Up" : "Down";
+                super.changeImage("Sprites/Frisk/Frisk" + facing + currentAnimationTick % 24 / 6 + ".png");
+            }
+
+            if (lastFacing != facing) {
+                currentAnimationTick = 0;
+                lastFacing = facing;
+            } else {
+                currentAnimationTick ++;
+            }
+        } else {
+            super.changeImage("Sprites/Frisk/Frisk" + facing + "0.png"); // sets our animation to the IDLE state.
+            currentAnimationTick = 0;
+        }
+
+
+
+        image(super.mySprite.getImage(), super.myPosition.x, super.myPosition.y);
+
     }
+}
