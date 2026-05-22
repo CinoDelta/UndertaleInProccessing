@@ -1,4 +1,4 @@
-class GameObject {
+public abstract class GameObject {   
 
     private Sprite mySprite;
     private Hitbox myHitbox;
@@ -80,7 +80,15 @@ class GameObject {
         image(mySprite.getImage(), myPosition.x, myPosition.y);
     }
 
+    private void addVector(PVector toAdd) {
+        myPosition.add(toAdd);
+    }
+
     public void setDirection(PVector direction) {
         this.direction = direction;
+    }
+
+    public Hitbox getHitBox() {
+        return myHitbox;
     }
 }
