@@ -31,7 +31,6 @@ class Player extends GameObject {
     */
     public void setDirection(PVector newDirection) {
         this.direction = newDirection.mult((float) speed);
-        print(this.direction.x + " " + this.direction.y);
         super.setPosition(getPosition().add(this.direction));
     }
    
