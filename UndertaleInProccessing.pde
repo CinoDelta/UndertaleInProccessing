@@ -68,6 +68,7 @@ void sortWorldByZ() {
 void setup() {  
     size(640, 440);
     background(255,255,255);
+    frameRate(30);
 
     // Create the player.
 
