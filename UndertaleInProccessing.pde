@@ -149,8 +149,8 @@ void setup() {
 
         // public Hitbox(PVector originPoint, int xBound, int yBound, int collideMask, int ignoreMask, PVector offset) {
         new Hitbox(new PVector(0, 0), 640, 220, 0, 1, new PVector(0, 0), "CUP"),
-        new Hitbox(new PVector(0, 0), 190, 220, 0, 1, new PVector(0, 0), "CLR")
-
+        new Hitbox(new PVector(0, 0), 150, 220, 0, 1, new PVector(0, 0), "CLR"),
+        new Hitbox(new PVector(536, 0), 300, 220, 0, 1, new PVector(0, 0), "CLR")
 
      }, new PVector(-40, 0), true, "BORDER_S", "", new int[][] {}, new int[][] {}, new int[] { }, new PVector(), new PVector(), 0);
 
@@ -204,6 +204,25 @@ public void keyPressed() {
             downPressed = true;
             break;
     }
+
+
+    switch (key) {
+        case 'a':
+            leftPressed = true;
+            break;
+        case 'd':
+            rightPressed = true;
+            break;
+        case 'w':
+            upPressed = true;
+            break;
+        case 's':
+            downPressed = true;
+            break;
+        case 'p':
+            print("Global Position: " + (mainPlayer.getPosition().x + mainCam.CFrame.x) + ", " + (mainPlayer.getPosition().y + mainCam.CFrame.y));
+            break;
+    }
 }
 
 public void keyReleased() {
@@ -221,6 +240,21 @@ public void keyReleased() {
     case DOWN:
         downPressed = false;
         break;
+    }
+
+    switch (key) {
+        case 'a':
+            leftPressed = false;
+            break;
+        case 'd':
+            rightPressed = false;
+            break;
+        case 'w':
+            upPressed = false;
+            break;
+        case 's':
+            downPressed = false;
+            break;
     }
 }
 

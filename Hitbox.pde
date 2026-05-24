@@ -3,7 +3,7 @@ class Hitbox {
     private PVector originPoint = new PVector(0, 0);
     private int xBound;
     private int yBound;
-    public boolean debug = true;
+    public boolean debug = false;
     public int collideMask = 0;
     public int ignoreMask = 0;
     private PVector offset = new PVector(0, 0);

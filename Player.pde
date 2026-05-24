@@ -35,14 +35,14 @@ class Player extends GameObject {
         boolean playerCollidingWithCameraUp = !checkCollisions(mainPlayer, "CUP");
         boolean playerCollidingWithCameraLeft = !checkCollisions(mainPlayer, "CLR");
 
-        PVector adjustedDirection = direction.copy();
+        PVector adjustedDirection = this.direction.copy();
 
         if (playerCollidingWithCameraUp) {
-            mainCam.CFrame = mainCam.CFrame.add(new PVector(0, direction.y));
+            mainCam.CFrame = mainCam.CFrame.add(new PVector(0, this.direction.y));
             adjustedDirection.y = 0;
         } 
         if (playerCollidingWithCameraLeft) {
-            mainCam.CFrame = mainCam.CFrame.add(new PVector(direction.x, 0));
+            mainCam.CFrame = mainCam.CFrame.add(new PVector(this.direction.x, 0));
             adjustedDirection.x = 0;
         }
 

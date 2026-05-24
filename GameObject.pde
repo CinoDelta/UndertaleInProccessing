@@ -90,7 +90,7 @@ class GameObject {
             myHitbox.setOriginPoint(myPosition);
         } else {
             for (Hitbox box : myHitboxes) {
-                box.setOriginPoint(myPosition);
+                //box.setOriginPoint(myPosition);
                 if (box.debug) {
                     // drawing a debug rectangle yippe.
                     fill(255, 0, 0, hitboxTransparency);
