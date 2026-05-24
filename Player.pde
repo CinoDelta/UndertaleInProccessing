@@ -31,7 +31,22 @@ class Player extends GameObject {
     */
     public void setDirection(PVector newDirection) {
         this.direction = newDirection.mult((float) speed);
-        super.setPosition(getPosition().add(this.direction));
+
+        boolean playerCollidingWithCameraUp = !checkCollisions(mainPlayer, "CUP");
+        boolean playerCollidingWithCameraLeft = !checkCollisions(mainPlayer, "CLR");
+
+        PVector adjustedDirection = direction.copy();
+
+        if (playerCollidingWithCameraUp) {
+            mainCam.CFrame = mainCam.CFrame.add(new PVector(0, direction.y));
+            adjustedDirection.y = 0;
+        } 
+        if (playerCollidingWithCameraLeft) {
+            mainCam.CFrame = mainCam.CFrame.add(new PVector(direction.x, 0));
+            adjustedDirection.x = 0;
+        }
+
+        super.setPosition(getPosition().add(adjustedDirection));
     }
    
     @Override
@@ -71,5 +86,11 @@ class Player extends GameObject {
 
         image(super.mySprite.getImage(), super.myPosition.x, super.myPosition.y);
 
+
+        if (super.myHitbox.debug) {
+            // drawing a debug rectangle yippe.
+            fill(255, 0, 0, hitboxTransparency);
+            rect(super.myHitbox.originPoint.x + super.myHitbox.getOffset().x, super.myHitbox.originPoint.y + super.myHitbox.getOffset().y, super.myHitbox.getXBound(), super.myHitbox.getYBound());
+        }
     }
 }

@@ -68,19 +68,43 @@ class GameObject {
         return mySprite.getImagePath();
     }
 
+    public Hitbox[] getMyHitboxes() {
+        return myHitboxes;
+    }
+
+    public Hitbox getMyHitbox() {
+        return myHitbox;
+    }
+
     public void update() {
+        float relativeX = myPosition.x - mainCam.CFrame.x;
+        float relativeY = myPosition.y - mainCam.CFrame.y;
+
+        if (cameraMode.equals("BORDER_S")) {
+            image(mySprite.getImage(), relativeX, relativeY);
+        } else {
+            image(mySprite.getImage(), myPosition.x, myPosition.y);
+        }
+
         if (!multipleContacts) {
             myHitbox.setOriginPoint(myPosition);
         } else {
             for (Hitbox box : myHitboxes) {
                 box.setOriginPoint(myPosition);
+                if (box.debug) {
+                    // drawing a debug rectangle yippe.
+                    fill(255, 0, 0, hitboxTransparency);
+                    rect(box.originPoint.x + box.getOffset().x, box.originPoint.y + box.getOffset().y, box.getXBound(), box.getYBound());
+                }
             }
         }
-
-        image(mySprite.getImage(), myPosition.x, myPosition.y);
     }
 
     public void setDirection(PVector direction) {
         this.direction = direction;
+    }
+
+    public boolean hasMultipleContacts() {
+        return multipleContacts;
     }
 }
