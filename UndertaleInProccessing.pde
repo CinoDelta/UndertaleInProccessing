@@ -102,6 +102,34 @@ boolean checkCollisions(GameObject object, String certainMetaData) {
     return false;
 }
 
+Hitbox[] collidingWalls(GameObject object) {
+  // here we are looking for hitboxes with the "WALL" meta data, and returning the walls that we are colliding with. 
+   ArrayDeque<Hitbox> walls = new ArrayDeque<Hitbox>();
+   Hitbox[] boxesToCheck = currentGameRoom.getMyHitboxes();
+   
+   for(Hitbox box : boxesToCheck) {
+     if (box.metaData == "WALL") {
+      if (object.getMyHitbox() != box && object.getMyHitbox().canCollideWith(box)) {
+          if (object.getMyHitbox().originPoint.x + object.getMyHitbox().getOffset().x < box.originPoint.x + box.getOffset().x + box.getXBound() &&
+              object.getMyHitbox().originPoint.x + object.getMyHitbox().getOffset().x + object.getMyHitbox().getXBound() > box.originPoint.x + box.getOffset().x &&
+              object.getMyHitbox().originPoint.y + object.getMyHitbox().getOffset().y < box.originPoint.y + box.getOffset().y + box.getYBound() &&
+              object.getMyHitbox().originPoint.y + object.getMyHitbox().getOffset().y + object.getMyHitbox().getYBound() > box.originPoint.y + box.getOffset().y) {
+              walls.add(box);
+          }
+      }
+     }
+   }
+   
+  if (walls.size() != 0) {
+    Hitbox[] result = walls.toArray(new Hitbox[walls.size()]);
+    return result;
+  } else {
+    return null;
+  }
+   
+}
+
+
 
 void sortWorldByZ() {
     GameObject[] startArray = gameWorld.toArray(new GameObject[gameWorld.size()]);
@@ -145,12 +173,19 @@ void setup() {
 
     // Sprite mySprite, Hitbox myHitbox, PVector myPosition, boolean isVisible, String cameraMode, String myParent,
     //  int[][] exitXBounds, int[][] exitYBounds, int[] transitionRooms, PVector enterPosition, PVector exitPosition, int roomID
+    
+    // FIRST ROOM (plan to move this to a room loading function that loads and removes rooms, and move these rooms to an interface.
     currentGameRoom = new Room(new Sprite(-1, "Sprites/RuinsSprites/firstroom.jpeg"), new Hitbox[] {
 
         // public Hitbox(PVector originPoint, int xBound, int yBound, int collideMask, int ignoreMask, PVector offset) {
+          
+        // CAMERA BOUNDS
         new Hitbox(new PVector(0, 0), 640, 220, 0, 1, new PVector(0, 0), "CUP"),
         new Hitbox(new PVector(0, 0), 150, 220, 0, 1, new PVector(0, 0), "CLR"),
-        new Hitbox(new PVector(536, 0), 300, 220, 0, 1, new PVector(0, 0), "CLR")
+        new Hitbox(new PVector(536, 0), 300, 220, 0, 1, new PVector(0, 0), "CLR"),
+        
+        // WALLS 
+        new Hitbox(new PVector(10, 53), 18, 100, 0, 1, new PVector(0, 0), "WALL")
 
      }, new PVector(-40, 0), true, "BORDER_S", "", new int[][] {}, new int[][] {}, new int[] { }, new PVector(), new PVector(), 0);
 
@@ -173,9 +208,29 @@ void draw() {
 
     PVector currentPlayerDirection = new PVector();
 
+    int[] hitNull = new int[] {1, 1, 1, 1}; // LEFT RIGHT UP DOWN
+    
+    Hitbox[] checkHitboxes = collidingWalls(mainPlayer);
+    
+    if (checkHitboxes != null) {
+      print("checking");
+      for (Hitbox box : checkHitboxes) {
+        print(box);
+        print("FIRST " +  box.originPoint.x + box.getOffset().x + box.getXBound() + "\n");
+        print("SECOND " + mainPlayer.getMyHitbox().originPoint.x + mainPlayer.getMyHitbox().getOffset().x + "\n");
+        if (
+        //object.getMyHitbox().originPoint.x + object.getMyHitbox().getOffset().x < box.originPoint.x + box.getOffset().x + box.getXBound()
+          box.originPoint.x + box.getOffset().x + box.getXBound() < mainPlayer.getMyHitbox().originPoint.x + mainPlayer.getMyHitbox().getOffset().x 
+          ) {
+          hitNull[0] = 0;
+          }
+      }
+    }
+           
+    
     currentPlayerDirection = upPressed ? PVector.add(currentPlayerDirection, new PVector(0, -0.1)) : currentPlayerDirection;
     currentPlayerDirection = downPressed ? PVector.add(currentPlayerDirection, new PVector(0, 0.1)) : currentPlayerDirection;
-    currentPlayerDirection = leftPressed ? PVector.add(currentPlayerDirection, new PVector(-0.1, 0)) : currentPlayerDirection;
+    currentPlayerDirection = leftPressed ? PVector.add(currentPlayerDirection, new PVector(-0.1 * hitNull[0], 0)) : currentPlayerDirection;
     currentPlayerDirection = rightPressed ? PVector.add(currentPlayerDirection, new PVector(0.1, 0)) : currentPlayerDirection;
 
     mainPlayer.setDirection(currentPlayerDirection);
@@ -257,5 +312,3 @@ public void keyReleased() {
             break;
     }
 }
-
-
