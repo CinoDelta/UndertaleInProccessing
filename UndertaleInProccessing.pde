@@ -185,7 +185,11 @@ void setup() {
         new Hitbox(new PVector(536, 0), 300, 220, 0, 1, new PVector(0, 0), "CLR"),
         
         // WALLS 
-        new Hitbox(new PVector(10, 53), 18, 100, 0, 1, new PVector(0, 0), "WALL")
+        new Hitbox(new PVector(10, 53), 18, 100, 0, 1, new PVector(0, 0), "WALL"), // the 2 side walls
+        new Hitbox(new PVector(270, 53), 18, 78, 0, 1, new PVector(0, 0), "WALL"),
+        new Hitbox(new PVector (22, 33), 48, 24, 0, 1, new PVector(0, 0), "WALL"),
+        new Hitbox(new PVector (60, 13), 208, 24, 0, 1, new PVector(0, 0), "WALL"),
+        new Hitbox(new PVector (60, 186), 208, 24, 0, 1, new PVector(0, 0), "WALL"),
 
      }, new PVector(-40, 0), true, "BORDER_S", "", new int[][] {}, new int[][] {}, new int[] { }, new PVector(), new PVector(), 0);
 
@@ -213,25 +217,50 @@ void draw() {
     Hitbox[] checkHitboxes = collidingWalls(mainPlayer);
     
     if (checkHitboxes != null) {
-      print("checking");
       for (Hitbox box : checkHitboxes) {
-        print(box);
-        print("FIRST " +  box.originPoint.x + box.getOffset().x + box.getXBound() + "\n");
-        print("SECOND " + mainPlayer.getMyHitbox().originPoint.x + mainPlayer.getMyHitbox().getOffset().x + "\n");
+
+        int boxRealX = (int) (box.originPoint.x + box.getOffset().x);
+        int boxRealY = (int) (box.originPoint.y + box.getOffset().y);
+
+        int boxRealX2 = (int) (boxRealX + box.getXBound());
+        int boxRealY2 = (int) (boxRealY + box.getYBound());
+
+        Hitbox playerHitbox = mainPlayer.getMyHitbox();
+
+        int playerRealX = (int) (playerHitbox.originPoint.x + playerHitbox.getOffset().x);
+        int playerRealY = (int) (playerHitbox.originPoint.y + playerHitbox.getOffset().y);
+        int playerRealX2 = (int) (playerRealX + playerHitbox.getXBound());
+        int playerRealY2 = (int) (playerRealY + playerHitbox.getYBound());
         if (
-        //object.getMyHitbox().originPoint.x + object.getMyHitbox().getOffset().x < box.originPoint.x + box.getOffset().x + box.getXBound()
-          box.originPoint.x + box.getOffset().x + box.getXBound() < mainPlayer.getMyHitbox().originPoint.x + mainPlayer.getMyHitbox().getOffset().x 
-          ) {
-          hitNull[0] = 0;
-          }
+            playerRealY < boxRealY2 && playerRealY2 > boxRealY2 // UP 
+        ) {
+            hitNull[2] = 0;
+        } 
+         else if (
+            playerRealY2 > boxRealY && playerRealY < boxRealY // DOWN
+        ) {
+            hitNull[3] = 0;
+        }
+        if (
+            playerRealX < boxRealX2 && playerRealX2 > boxRealX2
+        ) {
+            hitNull[0] = 0;
+        } 
+        if (
+            playerRealX2 > boxRealX && playerRealX < boxRealX
+        ) {
+            hitNull[1] = 0;
+        } 
+        
+
       }
     }
            
     
-    currentPlayerDirection = upPressed ? PVector.add(currentPlayerDirection, new PVector(0, -0.1)) : currentPlayerDirection;
-    currentPlayerDirection = downPressed ? PVector.add(currentPlayerDirection, new PVector(0, 0.1)) : currentPlayerDirection;
+    currentPlayerDirection = upPressed ? PVector.add(currentPlayerDirection, new PVector(0,  -0.1 * hitNull[2])) : currentPlayerDirection;
+    currentPlayerDirection = downPressed ? PVector.add(currentPlayerDirection, new PVector(0, 0.1 * hitNull[3])) : currentPlayerDirection;
     currentPlayerDirection = leftPressed ? PVector.add(currentPlayerDirection, new PVector(-0.1 * hitNull[0], 0)) : currentPlayerDirection;
-    currentPlayerDirection = rightPressed ? PVector.add(currentPlayerDirection, new PVector(0.1, 0)) : currentPlayerDirection;
+    currentPlayerDirection = rightPressed ? PVector.add(currentPlayerDirection, new PVector(0.1 * hitNull[1], 0)) : currentPlayerDirection;
 
     mainPlayer.setDirection(currentPlayerDirection);
 
@@ -239,6 +268,7 @@ void draw() {
         object.update();
     }
 
+    
 
 
 }
@@ -275,7 +305,7 @@ public void keyPressed() {
             downPressed = true;
             break;
         case 'p':
-            print("Global Position: " + (mainPlayer.getPosition().x + mainCam.CFrame.x) + ", " + (mainPlayer.getPosition().y + mainCam.CFrame.y));
+            print("Global Position: " + (mainPlayer.getMyHitbox().originPoint.x + mainCam.CFrame.x) + ", " + (mainPlayer.getMyHitbox().originPoint.y + mainCam.CFrame.y));
             break;
     }
 }
