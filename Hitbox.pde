@@ -3,7 +3,7 @@ class Hitbox {
     private PVector originPoint = new PVector(0, 0);
     private int xBound;
     private int yBound;
-    public boolean debug = false;
+    public boolean debug = true;
     public int collideMask = 0;
     public int ignoreMask = 0;
     private PVector offset = new PVector(0, 0);
@@ -56,6 +56,10 @@ class Hitbox {
 
     public int getYBound() {
         return this.yBound;
+    }
+    
+    public String toString() {
+      return this.metaData;
     }
 
     public void setMetaData(String data) {

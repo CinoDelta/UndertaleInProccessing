@@ -93,7 +93,12 @@ public abstract class GameObject {
                 //box.setOriginPoint(myPosition);
                 if (box.debug) {
                     // drawing a debug rectangle yippe.
-                    fill(255, 0, 0, hitboxTransparency);
+                    
+                    if (box.metaData == "WALL") {
+                      fill(0, 125, 255, hitboxTransparency + 50);
+                    } else {
+                      fill(255, 0, 0, hitboxTransparency);
+                    }
                     rect(box.originPoint.x + box.getOffset().x, box.originPoint.y + box.getOffset().y, box.getXBound(), box.getYBound());
                 }
             }
