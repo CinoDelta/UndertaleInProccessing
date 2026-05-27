@@ -65,4 +65,13 @@ class Hitbox {
     public void setMetaData(String data) {
         this.metaData = data;
     }
+
+    public boolean isColidingWith(Hitbox other) {
+        if (this.originPoint.x + this.getOffset().x < other.originPoint.x + other.getOffset().x + other.getXBound() &&
+            this.originPoint.x + this.getOffset().x + this.getXBound() > other.originPoint.x + other.getOffset().x &&
+            this.originPoint.y + this.getOffset().y < other.originPoint.y + other.getOffset().y + other.getYBound() &&
+            this.originPoint.y + this.getOffset().y + this.getYBound() > other.originPoint.y + other.getOffset().y) {
+                return true;
+          } else { return false; }
+    }
 }

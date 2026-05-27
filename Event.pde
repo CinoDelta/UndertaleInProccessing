@@ -1,4 +1,3 @@
-import java.util.function.Supplier;
 
 public class Event {
     private final Runnable event;

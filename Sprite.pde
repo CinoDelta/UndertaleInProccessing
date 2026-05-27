@@ -1,4 +1,4 @@
-class Sprite {
+public class Sprite {
     
     public int zIndex;
     private PImage img;
@@ -7,9 +7,8 @@ class Sprite {
     public Sprite(int zIndex, String path) {
         this.zIndex = zIndex;
         imgPath = path;
-        this.img = loadImage(path);
+        img = loadImage(path);
     }
-    
 
     public PImage getImage() {
         return img;

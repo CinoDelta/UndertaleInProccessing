@@ -3,13 +3,18 @@ import java.util.*;
 // Hitbox Layers:
 // 0 is Player
 // 1 is hitboxes that the player ignores
-
 // TODO: add how it works and description to updated doc 
 ArrayDeque<GameObject> gameWorld = new ArrayDeque<GameObject>();
-Player mainPlayer;
-Room currentGameRoom;
+public static Player mainPlayer;
 Camera mainCam;
 int hitboxTransparency = 40; // 255 for opaque hitboxes, 0 for invisible hitboxes. Adjust as needed for debugging.
+public RoomOne roomOne;
+Room currentGameRoom;
+private static final ArrayList<Sprite> sprites = new ArrayList<Sprite>();
+
+public static final ArrayList<Room> rooms = new ArrayList<Room>();
+
+// ROOMS: 
 
 GameObject[] merge(GameObject[] left, GameObject[] right) {
     GameObject[] newArray = new GameObject[left.length + right.length];
@@ -79,12 +84,7 @@ boolean checkCollisions(GameObject object, String certainMetaData) {
         for (Hitbox box : object.getMyHitboxes()) {
             for (Hitbox otherBox : hitboxes) {
                 if (box != otherBox && box.canCollideWith(otherBox) && otherBox.metaData.equals(certainMetaData)) {
-                    if (box.originPoint.x + box.getOffset().x < otherBox.originPoint.x + otherBox.getOffset().x + otherBox.getXBound() &&
-                        box.originPoint.x + box.getOffset().x + box.getXBound() > otherBox.originPoint.x + otherBox.getOffset().x &&
-                        box.originPoint.y + box.getOffset().y < otherBox.originPoint.y + otherBox.getOffset().y + otherBox.getYBound() &&
-                        box.originPoint.y + box.getOffset().y + box.getYBound() > otherBox.originPoint.y + otherBox.getOffset().y) {
-                        return true;
-                    }
+                    return box.isColidingWith(otherBox);
                 }
             }
         }
@@ -107,15 +107,12 @@ boolean checkCollisions(GameObject object, String certainMetaData) {
 Hitbox[] collidingWalls(GameObject object) {
   // here we are looking for hitboxes with the "WALL" meta data, and returning the walls that we are colliding with. 
    ArrayDeque<Hitbox> walls = new ArrayDeque<Hitbox>();
-   Hitbox[] boxesToCheck = currentGameRoom.getMyHitboxes();
+   Hitbox[] boxesToCheck = currentGameRoom.getRoom().getMyHitboxes();
    
    for(Hitbox box : boxesToCheck) {
      if (box.metaData == "WALL") {
       if (object.getMyHitbox() != box && object.getMyHitbox().canCollideWith(box)) {
-          if (object.getMyHitbox().originPoint.x + object.getMyHitbox().getOffset().x < box.originPoint.x + box.getOffset().x + box.getXBound() &&
-              object.getMyHitbox().originPoint.x + object.getMyHitbox().getOffset().x + object.getMyHitbox().getXBound() > box.originPoint.x + box.getOffset().x &&
-              object.getMyHitbox().originPoint.y + object.getMyHitbox().getOffset().y < box.originPoint.y + box.getOffset().y + box.getYBound() &&
-              object.getMyHitbox().originPoint.y + object.getMyHitbox().getOffset().y + object.getMyHitbox().getYBound() > box.originPoint.y + box.getOffset().y) {
+            if (object.getMyHitbox().isColidingWith(box)) {
               walls.add(box);
           }
       }
@@ -151,7 +148,15 @@ void setup() {
     size(640, 440);
     background(255,255,255);
     frameRate(30);
-    
+    roomOne = new RoomOne();
+    currentGameRoom = roomOne;
+
+    // FIRST ROOM (plan to move this to a room loading function that loads and removes rooms, and move these rooms to an interface.
+    // for(Sprite sprite : sprites) {
+    //     sprite.setImage(sprite.getImagePath());
+    //     print(sprite.getImagePath());
+    // }
+
     // the game's camera.
 
     mainCam = new Camera(new PVector (0, 0));
@@ -176,21 +181,6 @@ void setup() {
     // Sprite mySprite, Hitbox myHitbox, PVector myPosition, boolean isVisible, String cameraMode, String myParent,
     //  int[][] exitXBounds, int[][] exitYBounds, int[] transitionRooms, PVector enterPosition, PVector exitPosition, int roomID
     
-    // FIRST ROOM (plan to move this to a room loading function that loads and removes rooms, and move these rooms to an interface.
-    currentGameRoom = new Room(new Sprite(-1, "Sprites/RuinsSprites/firstroom.jpeg"), new Hitbox[] {
-
-        // public Hitbox(PVector originPoint, int xBound, int yBound, int collideMask, int ignoreMask, PVector offset) {
-          
-        // CAMERA BOUNDS
-        new Hitbox(new PVector(0, 0), 640, 220, 0, 1, new PVector(0, 0), "CUP"),
-        new Hitbox(new PVector(0, 0), 150, 220, 0, 1, new PVector(0, 0), "CLR"),
-        new Hitbox(new PVector(536, 0), 300, 220, 0, 1, new PVector(0, 0), "CLR"),
-        
-        // WALLS 
-        new Hitbox(new PVector(10, 53), 18, 100, 0, 1, new PVector(0, 0), "WALL")
-
-     }, new PVector(-40, 0), true, "BORDER_S", "", new int[][] {}, new int[][] {}, new int[] { }, new PVector(), new PVector(), 0);
-
 
 }
 
@@ -215,7 +205,7 @@ void draw() {
     Hitbox[] checkHitboxes = collidingWalls(mainPlayer);
     
     if (checkHitboxes != null) {
-      print("checking");
+      print("checking ");
       for (Hitbox box : checkHitboxes) {
         print(box);
         print("FIRST " +  box.originPoint.x + box.getOffset().x + box.getXBound() + "\n");
