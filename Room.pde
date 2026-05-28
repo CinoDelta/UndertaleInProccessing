@@ -1,29 +1,22 @@
-public class Room extends GameObject {
+public class RoomBase extends GameObject {
     private Sprite mySprite;
     private Hitbox myHitbox;
     private PVector myPosition;
     private boolean isVisible;
     private String cameraMode;
     private String myParent;
-
     private int[][] exitXBounds;
     private int[][] exitYBounds;
-    private int[] transitionRooms;
-    private PVector enterPosition;
-    private PVector exitPosition;
+    
     private int roomID;
 
-
-    public Room(
+    public RoomBase(
         Sprite mySprite, Hitbox[] myHitboxes, PVector myPosition, boolean isVisible, String cameraMode, String myParent,
         int[][] exitXBounds, int[][] exitYBounds, int[] transitionRooms, PVector enterPosition, PVector exitPosition, int roomID) 
     {
         super(mySprite, myHitboxes, myPosition, isVisible, cameraMode, myParent);
         this.exitXBounds = exitXBounds;
         this.exitYBounds = exitYBounds;
-        this.transitionRooms = transitionRooms;
-        this.enterPosition = enterPosition;
-        this.exitPosition = exitPosition;
     }
     
 
@@ -42,6 +35,10 @@ public class Room extends GameObject {
         }
 
         return currentBoundBetween;
+    }
+
+    public int getID() {
+        return roomID;
     }
 
 }

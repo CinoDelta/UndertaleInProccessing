@@ -1,7 +1,7 @@
-class GameObject {
+public abstract class GameObject {   
 
     private Sprite mySprite;
-    private Hitbox myHitbox;
+    public Hitbox myHitbox;
     private Hitbox[] myHitboxes;
     private PVector myPosition;
     private boolean isVisible = true;
@@ -40,6 +40,22 @@ class GameObject {
         gameWorld.add(this);
     }
 
+    public GameObject(PVector myPosition, boolean isVisible, String cameraMode, String myParent, Hitbox... myHitboxes) {
+        this.myHitboxes = myHitboxes;
+        this.myPosition = myPosition;
+        this.isVisible = isVisible;
+        this.cameraMode = cameraMode;
+        this.myParent = myParent;
+        this.mySprite = new Sprite(-1, "");
+
+        multipleContacts = true;
+        
+        direction = new PVector();
+
+        gameWorld.add(this);
+    }
+
+
     public PVector getPosition() {
         return myPosition;
     }
@@ -49,11 +65,11 @@ class GameObject {
     }
 
     public void setZIndex(int newZIndex) {
-        mySprite.zIndex = newZIndex;
+        if (mySprite != null ) mySprite.zIndex = newZIndex;
     }
 
     public int getZIndex() {
-        return mySprite.getZIndex();
+        return (mySprite != null) ? mySprite.getZIndex() : -1;
     }
 
     public void remove() {
@@ -61,11 +77,7 @@ class GameObject {
     }
 
     public void changeImage(String path) {
-        mySprite.setImage(path);
-    }
-
-    public String toString() {
-        return mySprite.getImagePath();
+        if (mySprite != null)  mySprite.setImage(path);
     }
 
     public Hitbox[] getMyHitboxes() {
@@ -103,6 +115,10 @@ class GameObject {
                 }
             }
         }
+    }
+
+    private void addVector(PVector toAdd) {
+        myPosition.add(toAdd);
     }
 
     public void setDirection(PVector direction) {
