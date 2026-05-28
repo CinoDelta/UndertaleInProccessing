@@ -3,7 +3,7 @@ import java.util.*;
 // Hitbox Layers:
 // 0 is Player
 // 1 is hitboxes that the player ignores
-ArrayDeque<GameObject> gameWorld = new ArrayDeque<GameObject>();
+ArrayList<GameObject> gameWorld = new ArrayList<GameObject>();
 Player mainPlayer;
 Room currentGameRoom;
 Camera mainCam;
@@ -53,8 +53,8 @@ GameObject[] mergeSort(GameObject[] data){
     }
 }
 
-Hitbox[] worldToBoxes(ArrayDeque<GameObject> theWorld) {
-    ArrayDeque<Hitbox> hitboxes = new ArrayDeque<Hitbox>();
+Hitbox[] worldToBoxes(ArrayList<GameObject> theWorld) {
+    ArrayList<Hitbox> hitboxes = new ArrayList<Hitbox>();
     for(int i = 0; i < theWorld.toArray().length; i ++) {
         GameObject anObject = theWorld.toArray(new GameObject[theWorld.size()])[i];
         if (anObject.hasMultipleContacts()) {
