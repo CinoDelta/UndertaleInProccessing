@@ -32,6 +32,10 @@ public class Event {
         isFinished = true;
     }
 
+
+    public Runnable getEvent() {
+        return event;
+    }
     public boolean isFinished() {
         return isFinished;
     }

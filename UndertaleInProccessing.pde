@@ -9,6 +9,7 @@ public static Player mainPlayer;
 Camera mainCam;
 int hitboxTransparency = 40; // 255 for opaque hitboxes, 0 for invisible hitboxes. Adjust as needed for debugging.
 public RoomOne roomOne;
+public RoomTwo roomTwo;
 Room currentGameRoom;
 private static final ArrayList<Sprite> sprites = new ArrayList<Sprite>();
 
@@ -39,6 +40,8 @@ GameObject[] merge(GameObject[] left, GameObject[] right) {
     }
     return newArray;
 }
+
+
 
 
 GameObject[] mergeSort(GameObject[] data){
@@ -149,6 +152,9 @@ void setup() {
     background(255,255,255);
     frameRate(30);
     roomOne = new RoomOne();
+    roomTwo = new RoomTwo();
+    rooms.add(roomOne);
+    rooms.add(roomTwo);
     currentGameRoom = roomOne;
 
     // FIRST ROOM (plan to move this to a room loading function that loads and removes rooms, and move these rooms to an interface.
