@@ -32,6 +32,15 @@ public class Event {
         isFinished = true;
     }
 
+    public Event schedule() {
+        eventSequence.push(this);
+        return this;
+    }
+
+
+    public Runnable getEvent() {
+        return event;
+    }
     public boolean isFinished() {
         return isFinished;
     }

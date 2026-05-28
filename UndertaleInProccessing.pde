@@ -3,16 +3,16 @@ import java.util.*;
 // Hitbox Layers:
 // 0 is Player
 // 1 is hitboxes that the player ignores
-// TODO: add how it works and description to updated doc 
-ArrayDeque<GameObject> gameWorld = new ArrayDeque<GameObject>();
-public static Player mainPlayer;
+ArrayList<GameObject> gameWorld = new ArrayList<GameObject>();
+Player mainPlayer;
 Camera mainCam;
 int hitboxTransparency = 40; // 255 for opaque hitboxes, 0 for invisible hitboxes. Adjust as needed for debugging.
 public RoomOne roomOne;
+public RoomTwo roomTwo;
 Room currentGameRoom;
-private static final ArrayList<Sprite> sprites = new ArrayList<Sprite>();
 
 public static final ArrayList<Room> rooms = new ArrayList<Room>();
+public ArrayDeque<Event> eventSequence = new ArrayDeque<Event>();
 
 // ROOMS: 
 
@@ -41,6 +41,8 @@ GameObject[] merge(GameObject[] left, GameObject[] right) {
 }
 
 
+
+
 GameObject[] mergeSort(GameObject[] data){
     if (data.length > 1) {
         // Hi we split data in half.
@@ -60,8 +62,8 @@ GameObject[] mergeSort(GameObject[] data){
     }
 }
 
-Hitbox[] worldToBoxes(ArrayDeque<GameObject> theWorld) {
-    ArrayDeque<Hitbox> hitboxes = new ArrayDeque<Hitbox>();
+Hitbox[] worldToBoxes(ArrayList<GameObject> theWorld) {
+    ArrayList<Hitbox> hitboxes = new ArrayList<Hitbox>();
     for(int i = 0; i < theWorld.toArray().length; i ++) {
         GameObject anObject = theWorld.toArray(new GameObject[theWorld.size()])[i];
         if (anObject.hasMultipleContacts()) {
@@ -148,7 +150,11 @@ void setup() {
     size(640, 440);
     background(255,255,255);
     frameRate(30);
+    mainPlayer = new Player(new Sprite(1, "Sprites/Frisk/FriskDown0.png"), new Hitbox(14, 10, 0, 1, new PVector(3, 18), "PLR"), new PVector(140, 90), true, "BORDER_M", "", 1);
     roomOne = new RoomOne();
+    roomTwo = new RoomTwo();
+    rooms.add(roomOne);
+    rooms.add(roomTwo);
     currentGameRoom = roomOne;
 
     // FIRST ROOM (plan to move this to a room loading function that loads and removes rooms, and move these rooms to an interface.
@@ -176,11 +182,12 @@ void setup() {
     // Create the player.
 
     // z index of 0
-    mainPlayer = new Player(new Sprite(0, "Sprites/Frisk/FriskDown0.png"), new Hitbox(14, 10, 0, 1, new PVector(3, 18), "PLR"), new PVector(140, 90), true, "BORDER_M", "", 0);
 
     // Sprite mySprite, Hitbox myHitbox, PVector myPosition, boolean isVisible, String cameraMode, String myParent,
     //  int[][] exitXBounds, int[][] exitYBounds, int[] transitionRooms, PVector enterPosition, PVector exitPosition, int roomID
     
+    // FIRST ROOM (plan to move this to a room loading function that loads and removes rooms, and move these rooms to an interface.
+
 
 }
 
@@ -194,8 +201,8 @@ boolean leftPressed = false;
 void draw() {
     scale(2);
     background(255, 255, 255);
-    // Draw every thing in the game world by order, with the correct sprite.
 
+    // Draw every thing in the game world by order, with the correct sprite.
     sortWorldByZ();
 
     PVector currentPlayerDirection = new PVector();
@@ -205,25 +212,51 @@ void draw() {
     Hitbox[] checkHitboxes = collidingWalls(mainPlayer);
     
     if (checkHitboxes != null) {
-      print("checking ");
+      print("checking");
       for (Hitbox box : checkHitboxes) {
-        print(box);
-        print("FIRST " +  box.originPoint.x + box.getOffset().x + box.getXBound() + "\n");
-        print("SECOND " + mainPlayer.getMyHitbox().originPoint.x + mainPlayer.getMyHitbox().getOffset().x + "\n");
+
+        int boxRealX = (int) (box.originPoint.x + box.getOffset().x);
+        int boxRealY = (int) (box.originPoint.y + box.getOffset().y);
+
+        int boxRealX2 = (int) (boxRealX + box.getXBound());
+        int boxRealY2 = (int) (boxRealY + box.getYBound());
+
+        Hitbox playerHitbox = mainPlayer.getMyHitbox();
+
+        int playerRealX = (int) (playerHitbox.originPoint.x + playerHitbox.getOffset().x);
+        int playerRealY = (int) (playerHitbox.originPoint.y + playerHitbox.getOffset().y);
+        int playerRealX2 = (int) (playerRealX + playerHitbox.getXBound());
+        int playerRealY2 = (int) (playerRealY + playerHitbox.getYBound());
         if (
-        //object.getMyHitbox().originPoint.x + object.getMyHitbox().getOffset().x < box.originPoint.x + box.getOffset().x + box.getXBound()
-          box.originPoint.x + box.getOffset().x + box.getXBound() < mainPlayer.getMyHitbox().originPoint.x + mainPlayer.getMyHitbox().getOffset().x 
-          ) {
-          hitNull[0] = 0;
-          }
+            playerRealY < boxRealY2 && playerRealY2 > boxRealY2 // UP 
+        ) {
+            hitNull[2] = 0;
+        } 
+         else if (
+            playerRealY2 > boxRealY && playerRealY < boxRealY // DOWN
+        ) {
+            hitNull[3] = 0;
+        }
+        if (
+            playerRealX < boxRealX2 && playerRealX2 > boxRealX2
+        ) {
+            hitNull[0] = 0;
+        } 
+        if (
+            playerRealX2 > boxRealX && playerRealX < boxRealX
+        ) {
+            hitNull[1] = 0;
+        } 
+        
+
       }
     }
            
     
-    currentPlayerDirection = upPressed ? PVector.add(currentPlayerDirection, new PVector(0, -0.1)) : currentPlayerDirection;
-    currentPlayerDirection = downPressed ? PVector.add(currentPlayerDirection, new PVector(0, 0.1)) : currentPlayerDirection;
+    currentPlayerDirection = upPressed ? PVector.add(currentPlayerDirection, new PVector(0,  -0.1 * hitNull[2])) : currentPlayerDirection;
+    currentPlayerDirection = downPressed ? PVector.add(currentPlayerDirection, new PVector(0, 0.1 * hitNull[3])) : currentPlayerDirection;
     currentPlayerDirection = leftPressed ? PVector.add(currentPlayerDirection, new PVector(-0.1 * hitNull[0], 0)) : currentPlayerDirection;
-    currentPlayerDirection = rightPressed ? PVector.add(currentPlayerDirection, new PVector(0.1, 0)) : currentPlayerDirection;
+    currentPlayerDirection = rightPressed ? PVector.add(currentPlayerDirection, new PVector(0.1 * hitNull[1], 0)) : currentPlayerDirection;
 
     mainPlayer.setDirection(currentPlayerDirection);
 
@@ -231,8 +264,13 @@ void draw() {
         object.update();
     }
 
+    executeEvents();
+}
 
-
+private void executeEvents() {
+    while (!eventSequence.isEmpty()) {
+        eventSequence.pop().start();
+    }
 }
 
 public void keyPressed() {
@@ -266,7 +304,7 @@ public void keyPressed() {
             downPressed = true;
             break;
         case 'p':
-            print("Global Position: " + (mainPlayer.getPosition().x + mainCam.CFrame.x) + ", " + (mainPlayer.getPosition().y + mainCam.CFrame.y));
+            print("Global Position: " + (mainPlayer.getMyHitbox().originPoint.x + mainCam.CFrame.x) + ", " + (mainPlayer.getMyHitbox().originPoint.y + mainCam.CFrame.y));
             break;
     }
 }

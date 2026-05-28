@@ -17,6 +17,7 @@ public class RoomBase extends GameObject {
         super(mySprite, myHitboxes, myPosition, isVisible, cameraMode, myParent);
         this.exitXBounds = exitXBounds;
         this.exitYBounds = exitYBounds;
+        this.roomID = roomID;
     }
     
 

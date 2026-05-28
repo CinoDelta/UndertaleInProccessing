@@ -42,11 +42,11 @@ public abstract class GameObject {
 
     public GameObject(PVector myPosition, boolean isVisible, String cameraMode, String myParent, Hitbox... myHitboxes) {
         this.myHitboxes = myHitboxes;
+        this.myHitbox = myHitboxes[0];
         this.myPosition = myPosition;
         this.isVisible = isVisible;
         this.cameraMode = cameraMode;
         this.myParent = myParent;
-        this.mySprite = new Sprite(-1, "");
 
         multipleContacts = true;
         
@@ -92,11 +92,15 @@ public abstract class GameObject {
         float relativeX = myPosition.x - mainCam.CFrame.x;
         float relativeY = myPosition.y - mainCam.CFrame.y;
 
-        if (cameraMode.equals("BORDER_S")) {
-            image(mySprite.getImage(), relativeX, relativeY);
-        } else {
-            image(mySprite.getImage(), myPosition.x, myPosition.y);
+        if (mySprite != null) {
+            if (cameraMode.equals("BORDER_S")) {
+                image(mySprite.getImage(), relativeX, relativeY);
+            } else {
+                image(mySprite.getImage(), myPosition.x, myPosition.y);
+            }
+
         }
+
 
         if (!multipleContacts) {
             myHitbox.setOriginPoint(myPosition);

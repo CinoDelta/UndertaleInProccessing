@@ -8,11 +8,8 @@ class Player extends GameObject {
     private int speed = 20;
     private int currentAnimationTick = 0;
     private String facing = "Down";
-    private String lastFacing = "Down";
-
-        private PVector myPosition;
-
-
+    private String lastFacing = "Down";    
+    
 
     public Player(Sprite mySprite, Hitbox myHitbox, PVector myPosition, boolean isVisible, String cameraMode, String myParent, int zIndex) {
         super(mySprite,  myHitbox, myPosition, isVisible, cameraMode, myParent);
