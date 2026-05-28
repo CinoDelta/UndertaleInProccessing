@@ -212,7 +212,6 @@ void draw() {
     Hitbox[] checkHitboxes = collidingWalls(mainPlayer);
     
     if (checkHitboxes != null) {
-      print("checking");
       for (Hitbox box : checkHitboxes) {
 
         int boxRealX = (int) (box.originPoint.x + box.getOffset().x);
