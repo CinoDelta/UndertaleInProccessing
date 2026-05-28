@@ -66,6 +66,10 @@ class Hitbox {
         this.metaData = data;
     }
 
+    public String getMetaData() {
+        return metaData;
+    }
+
     public boolean isColidingWith(Hitbox other) {
         if (this.originPoint.x + this.getOffset().x < other.originPoint.x + other.getOffset().x + other.getXBound() &&
             this.originPoint.x + this.getOffset().x + this.getXBound() > other.originPoint.x + other.getOffset().x &&

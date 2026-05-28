@@ -5,13 +5,14 @@ import java.util.*;
 // 1 is hitboxes that the player ignores
 ArrayList<GameObject> gameWorld = new ArrayList<GameObject>();
 Player mainPlayer;
-Room currentGameRoom;
 Camera mainCam;
 int hitboxTransparency = 40; // 255 for opaque hitboxes, 0 for invisible hitboxes. Adjust as needed for debugging.
 public RoomOne roomOne;
-private static final ArrayList<Sprite> sprites = new ArrayList<Sprite>();
+public RoomTwo roomTwo;
+Room currentGameRoom;
 
 public static final ArrayList<Room> rooms = new ArrayList<Room>();
+public ArrayDeque<Event> eventSequence = new ArrayDeque<Event>();
 
 // ROOMS: 
 
@@ -38,6 +39,8 @@ GameObject[] merge(GameObject[] left, GameObject[] right) {
     }
     return newArray;
 }
+
+
 
 
 GameObject[] mergeSort(GameObject[] data){
@@ -147,7 +150,11 @@ void setup() {
     size(640, 440);
     background(255,255,255);
     frameRate(30);
+    mainPlayer = new Player(new Sprite(1, "Sprites/Frisk/FriskDown0.png"), new Hitbox(14, 10, 0, 1, new PVector(3, 18), "PLR"), new PVector(140, 90), true, "BORDER_M", "", 1);
     roomOne = new RoomOne();
+    roomTwo = new RoomTwo();
+    rooms.add(roomOne);
+    rooms.add(roomTwo);
     currentGameRoom = roomOne;
 
     // FIRST ROOM (plan to move this to a room loading function that loads and removes rooms, and move these rooms to an interface.
@@ -175,7 +182,6 @@ void setup() {
     // Create the player.
 
     // z index of 0
-    mainPlayer = new Player(new Sprite(0, "Sprites/Frisk/FriskDown0.png"), new Hitbox(14, 10, 0, 1, new PVector(3, 18), "PLR"), new PVector(140, 90), true, "BORDER_M", "", 0);
 
     // Sprite mySprite, Hitbox myHitbox, PVector myPosition, boolean isVisible, String cameraMode, String myParent,
     //  int[][] exitXBounds, int[][] exitYBounds, int[] transitionRooms, PVector enterPosition, PVector exitPosition, int roomID
@@ -195,8 +201,8 @@ boolean leftPressed = false;
 void draw() {
     scale(2);
     background(255, 255, 255);
-    // Draw every thing in the game world by order, with the correct sprite.
 
+    // Draw every thing in the game world by order, with the correct sprite.
     sortWorldByZ();
 
     PVector currentPlayerDirection = new PVector();
@@ -258,9 +264,13 @@ void draw() {
         object.update();
     }
 
-    
+    executeEvents();
+}
 
-
+private void executeEvents() {
+    while (!eventSequence.isEmpty()) {
+        eventSequence.pop().start();
+    }
 }
 
 public void keyPressed() {
