@@ -51,9 +51,8 @@ class Player extends GameObject {
 
         super.setPosition(getPosition().add(adjustedDirection));
     }
-   
+
     @Override
-    
     // the animation handler
     public void update() {
         if (!super.multipleContacts) {

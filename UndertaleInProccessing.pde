@@ -239,7 +239,6 @@ public void keyPressed() {
     switch(keyCode) {
         case LEFT:
             leftPressed = true;
-           
             break;
         case RIGHT:
             rightPressed = true;
@@ -276,7 +275,6 @@ public void keyReleased() {
     switch(keyCode) {
     case LEFT:
         leftPressed = false;
-        
         break;
     case RIGHT:
         rightPressed = false;
