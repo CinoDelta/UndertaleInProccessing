@@ -186,10 +186,22 @@ void setup() {
         
         // WALLS 
         new Hitbox(new PVector(10, 53), 18, 100, 0, 1, new PVector(0, 0), "WALL"), // the 2 side walls
-        new Hitbox(new PVector(270, 53), 18, 78, 0, 1, new PVector(0, 0), "WALL"),
-        new Hitbox(new PVector (22, 33), 48, 24, 0, 1, new PVector(0, 0), "WALL"),
-        new Hitbox(new PVector (60, 13), 208, 24, 0, 1, new PVector(0, 0), "WALL"),
-        new Hitbox(new PVector (60, 186), 208, 24, 0, 1, new PVector(0, 0), "WALL"),
+        new Hitbox(new PVector(270, 53), 292, 78, 0, 1, new PVector(0, 0), "WALL"),
+
+        new Hitbox(new PVector(628, 53), 18, 200, 0, 1, new PVector(0, 0), "WALL"), // the side wall all the way to the right
+
+        new Hitbox(new PVector (18, 33), 48, 24, 0, 1, new PVector(0, 0), "WALL"), // BEEFY top right and top left
+        new Hitbox(new PVector (235, 33), 48, 24, 0, 1, new PVector(0, 0), "WALL"),
+
+        new Hitbox(new PVector (20, 165), 48, 24, 0, 1, new PVector(0, 0), "WALL"), // BEEFY bottom left
+        new Hitbox(new PVector (0, 146), 48, 24, 0, 1, new PVector(0, 0), "WALL"), // BEEFY bottom left, slighty more left
+
+        new Hitbox(new PVector (235, 165), 500, 24, 0, 1, new PVector(0, 0), "WALL"), // BEEFY bottom right wall (stretches out)
+        new Hitbox(new PVector (40, 185), 48, 24, 0, 1, new PVector(0, 0), "WALL"), // BEEFY bottom left wall, under the slightly more left
+        new Hitbox(new PVector (215, 185), 48, 24, 0, 1, new PVector(0, 0), "WALL"), // BEEFY bottom right wall, under the bottom right wall
+
+        new Hitbox(new PVector (60, 13), 208, 24, 0, 1, new PVector(0, 0), "WALL"),// big top and bottom walls
+        new Hitbox(new PVector (60, 203), 208, 24, 0, 1, new PVector(0, 0), "WALL"),
 
      }, new PVector(-40, 0), true, "BORDER_S", "", new int[][] {}, new int[][] {}, new int[] { }, new PVector(), new PVector(), 0);
 
