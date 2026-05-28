@@ -15,7 +15,6 @@ public class Door extends GameObject{
                     currentGameRoom = rooms.get(nextid - 1);
                     currentGameRoom.loadRoom();
                     location = nextLocation;
-                    print("hi");
                 } else {
                     currentGameRoom = rooms.get(currentid - 1);
                     location = initlocation;
@@ -33,7 +32,7 @@ public class Door extends GameObject{
         if (super.getMyHitbox().isColidingWith(mainPlayer.getMyHitbox())) {
             if (canSwitch) {
                 canSwitch = false;
-                transitionRooms.getEvent().run();
+                transitionRooms.schedule();
             }
         } else { 
             canSwitch = true;

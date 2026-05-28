@@ -14,6 +14,7 @@ Room currentGameRoom;
 private static final ArrayList<Sprite> sprites = new ArrayList<Sprite>();
 
 public static final ArrayList<Room> rooms = new ArrayList<Room>();
+public ArrayDeque<Event> eventSequence = new ArrayDeque<Event>();
 
 // ROOMS: 
 
@@ -151,6 +152,7 @@ void setup() {
     size(640, 440);
     background(255,255,255);
     frameRate(30);
+    mainPlayer = new Player(new Sprite(1, "Sprites/Frisk/FriskDown0.png"), new Hitbox(14, 10, 0, 1, new PVector(3, 18), "PLR"), new PVector(140, 90), true, "BORDER_M", "", 1);
     roomOne = new RoomOne();
     roomTwo = new RoomTwo();
     rooms.add(roomOne);
@@ -182,7 +184,6 @@ void setup() {
     // Create the player.
 
     // z index of 0
-    mainPlayer = new Player(new Sprite(0, "Sprites/Frisk/FriskDown0.png"), new Hitbox(14, 10, 0, 1, new PVector(3, 18), "PLR"), new PVector(140, 90), true, "BORDER_M", "", 0);
 
     // Sprite mySprite, Hitbox myHitbox, PVector myPosition, boolean isVisible, String cameraMode, String myParent,
     //  int[][] exitXBounds, int[][] exitYBounds, int[] transitionRooms, PVector enterPosition, PVector exitPosition, int roomID
@@ -200,8 +201,8 @@ boolean leftPressed = false;
 void draw() {
     scale(2);
     background(255, 255, 255);
-    // Draw every thing in the game world by order, with the correct sprite.
 
+    // Draw every thing in the game world by order, with the correct sprite.
     sortWorldByZ();
 
     PVector currentPlayerDirection = new PVector();
@@ -237,8 +238,13 @@ void draw() {
         object.update();
     }
 
+    executeEvents();
+}
 
-
+private void executeEvents() {
+    while (!eventSequence.isEmpty()) {
+        eventSequence.pop().start();
+    }
 }
 
 public void keyPressed() {

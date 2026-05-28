@@ -1,10 +1,11 @@
 
 public abstract class Room {
     public final RoomBase room;
-    private final GameObject[] objects;
-    
+    private GameObject[] roomObjects;
+    private final PVector startingCameraLocation;
+    private final PVector playerStartingLocation;
 
-    public Room(RoomBase room, GameObject... objects) {
+    public Room(RoomBase room, PVector startingCameraLocation, PVector playerStartingLocation, GameObject[] objects) {
         this.room = room;
         if (room.getID() == 1) {
             gameWorld.clear();
@@ -13,7 +14,10 @@ public abstract class Room {
                 gameWorld.add(object);
             }
         }
-        this.objects = new GameObject[]{room};
+        roomObjects = objects;
+        print("Room " + room.getID() + " objects " + roomObjects);
+        this.startingCameraLocation = startingCameraLocation;
+        this.playerStartingLocation = playerStartingLocation;
     }
 
     public RoomBase getRoom() {
@@ -21,14 +25,24 @@ public abstract class Room {
     }
 
     public void loadRoom() {
-        gameWorld.clear();
+        // gameWorld.clear();
+        mainCam.resetCFrame(startingCameraLocation);
+        print(room.getID());
+        print(roomObjects);
         gameWorld.add(room);
-        print(Arrays.toString(objects));
-        for (GameObject object : objects) {
-            // print(object.toString());
-                // gameWorld.add(object);
-        }
+        mainPlayer.setPosition(playerStartingLocation);
+        gameWorld.add(mainPlayer);
+        // for (int i = 0; i < roomObjects.length; i++) {
+        //     gameWorld.add(roomObjects[i]);
+        // }
     }
+
+
+    public GameObject[] getobjects() {
+        return roomObjects;
+    }
+
+
 
     public Door[] getDoorsForRoomID(int roomid) {
         ArrayList<Door> doors = new ArrayList<Door>();
@@ -64,9 +78,10 @@ public class RoomOne extends Room{
             // WALLS 
             new Hitbox(new PVector(10, 53), 18, 100, 0, 1, new PVector(0, 0), "WALL")
             }, new PVector(-40, 0), true, "BORDER_S", "", new int[][] {}, new int[][] {}, new int[] { }, new PVector(), new PVector(), 1),
-            new Door(new PVector(580, 72), new PVector(580, 72), 1, 2, new Hitbox(new PVector(580, 72), 50, 50, 0, 1, new PVector(), "DOOR" )
-            )
-        );
+            new PVector(),
+            new PVector(140, 90),
+            new GameObject[] {new Door(new PVector(580, 72), new PVector(580, 72), 1, 2, new Hitbox(new PVector(580, 72), 50, 50, 0, 1, new PVector(), "DOOR" )), mainPlayer}
+            );
     }
 }
 public class RoomTwo extends Room{
@@ -83,7 +98,9 @@ public class RoomTwo extends Room{
             // WALLS 
             new Hitbox(new PVector(10, 53), 18, 100, 0, 1, new PVector(0, 0), "WALL")
             }, new PVector(-40, 0), true, "BORDER_S", "", new int[][] {}, new int[][] {}, new int[] { }, new PVector(), new PVector(), 2),
-            mainPlayer
+            new PVector(),
+            new PVector(140, 90),
+            new GameObject[] {mainPlayer}
         );
     }
 }

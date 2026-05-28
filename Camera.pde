@@ -5,4 +5,8 @@ public class Camera {
     public Camera(PVector CFrame) {
         this.CFrame = CFrame;
     }
+
+    public void resetCFrame(PVector newFrame) {
+        CFrame = newFrame;
+    }
 }
