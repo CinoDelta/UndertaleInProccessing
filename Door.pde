@@ -12,6 +12,7 @@ public class Door extends GameObject{
         transitionRooms = new Event("Room " + currentid + " room " + nextid + " transition", 
             () -> {
                 if (currentGameRoom.getRoom().getID() != nextid) {
+                    // ya gotta remove the current game room stuff firstttt
                     currentGameRoom = rooms.get(nextid - 1);
                     currentGameRoom.loadRoom();
                     location = nextLocation;
@@ -32,6 +33,8 @@ public class Door extends GameObject{
         if (super.getMyHitbox().isColidingWith(mainPlayer.getMyHitbox())) {
             if (canSwitch) {
                 canSwitch = false;
+                // clear the game world
+                gameWorld.clear();
                 transitionRooms.schedule();
             }
         } else { 

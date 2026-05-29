@@ -40,6 +40,24 @@ public abstract class GameObject {
         gameWorld.add(this);
     }
 
+    // specifically for rooms, which cannot be auto-added to the game world upon creation due to how the room loading system works.
+    public GameObject(Sprite mySprite, Hitbox[] myHitboxes, PVector myPosition, boolean isVisible, String cameraMode, String myParent, boolean addToGameWorld) {
+        this.mySprite = mySprite;
+        this.myHitboxes = myHitboxes;
+        this.myPosition = myPosition;
+        this.isVisible = isVisible;
+        this.cameraMode = cameraMode;
+        this.myParent = myParent;
+
+        multipleContacts = true;
+        
+        direction = new PVector();
+
+        if (addToGameWorld) {
+            gameWorld.add(this);
+        }
+    }
+
     public GameObject(PVector myPosition, boolean isVisible, String cameraMode, String myParent, Hitbox... myHitboxes) {
         this.myHitboxes = myHitboxes;
         this.myHitbox = myHitboxes[0];
@@ -51,6 +69,7 @@ public abstract class GameObject {
         multipleContacts = true;
         
         direction = new PVector();
+
 
         gameWorld.add(this);
     }

@@ -81,7 +81,7 @@ Hitbox[] worldToBoxes(ArrayList<GameObject> theWorld) {
 }
 
 boolean checkCollisions(GameObject object, String certainMetaData) {
-    Hitbox[] hitboxes = worldToBoxes(gameWorld);
+    Hitbox[] hitboxes = currentGameRoom.getRoom().getMyHitboxes();
     if (object.hasMultipleContacts()) {
         for (Hitbox box : object.getMyHitboxes()) {
             for (Hitbox otherBox : hitboxes) {
@@ -200,6 +200,7 @@ boolean leftPressed = false;
 
 void draw() {
     scale(2);
+    frameRate(30);
     background(255, 255, 255);
 
     // Draw every thing in the game world by order, with the correct sprite.
@@ -259,8 +260,8 @@ void draw() {
 
     mainPlayer.setDirection(currentPlayerDirection);
 
-    for (GameObject object : gameWorld) {
-        object.update();
+    for (int i = 0; i < gameWorld.size(); i ++) {
+        gameWorld.get(i).update();
     }
 
     executeEvents();
