@@ -200,6 +200,7 @@ boolean leftPressed = false;
 
 void draw() {
     scale(2);
+    frameRate(30);
     background(255, 255, 255);
 
     // Draw every thing in the game world by order, with the correct sprite.
@@ -212,7 +213,6 @@ void draw() {
     Hitbox[] checkHitboxes = collidingWalls(mainPlayer);
     
     if (checkHitboxes != null) {
-      print("checking");
       for (Hitbox box : checkHitboxes) {
 
         int boxRealX = (int) (box.originPoint.x + box.getOffset().x);
@@ -260,8 +260,8 @@ void draw() {
 
     mainPlayer.setDirection(currentPlayerDirection);
 
-    for (GameObject object : gameWorld) {
-        object.update();
+    for (int i = 0; i < gameWorld.size(); i ++) {
+        gameWorld.get(i).update();
     }
 
     executeEvents();

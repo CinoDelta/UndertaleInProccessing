@@ -14,7 +14,7 @@ public class RoomBase extends GameObject {
         Sprite mySprite, Hitbox[] myHitboxes, PVector myPosition, boolean isVisible, String cameraMode, String myParent,
         int[][] exitXBounds, int[][] exitYBounds, int[] transitionRooms, PVector enterPosition, PVector exitPosition, int roomID) 
     {
-        super(mySprite, myHitboxes, myPosition, isVisible, cameraMode, myParent);
+        super(mySprite, myHitboxes, myPosition, isVisible, cameraMode, myParent, roomID == 1); // only add the first room to the game world upon creation
         this.exitXBounds = exitXBounds;
         this.exitYBounds = exitYBounds;
         this.roomID = roomID;

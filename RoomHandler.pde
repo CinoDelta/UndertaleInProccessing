@@ -31,10 +31,10 @@ public abstract class Room {
         print(roomObjects);
         gameWorld.add(room);
         mainPlayer.setPosition(playerStartingLocation);
-        gameWorld.add(mainPlayer);
-        // for (int i = 0; i < roomObjects.length; i++) {
-        //     gameWorld.add(roomObjects[i]);
-        // }
+        //gameWorld.add(mainPlayer);
+        for (int i = 0; i < roomObjects.length; i++) {
+            gameWorld.add(roomObjects[i]);
+        }
     }
 
 
@@ -95,7 +95,7 @@ public class RoomOne extends Room{
         new Hitbox(new PVector (60, 13), 208, 24, 0, 1, new PVector(0, 0), "WALL"),// big top and bottom walls
         new Hitbox(new PVector (60, 203), 208, 24, 0, 1, new PVector(0, 0), "WALL"),
 
-     }, new PVector(-40, 0), true, "BORDER_S", "", new int[][] {}, new int[][] {}, new int[] { }, new PVector(), new PVector(), 0),
+     }, new PVector(-40, 0), true, "BORDER_S", "", new int[][] {}, new int[][] {}, new int[] { }, new PVector(), new PVector(), 1),
      new PVector(),
             new PVector(140, 90),
             new GameObject[] {new Door(new PVector(580, 72), new PVector(580, 72), 1, 2, new Hitbox(new PVector(580, 72), 50, 50, 0, 1, new PVector(), "DOOR" )), mainPlayer}
@@ -107,7 +107,7 @@ public class RoomOne extends Room{
 public class RoomTwo extends Room{
     public RoomTwo() {
         super(
-            new RoomBase(new Sprite(-1, "Sprites/RuinsSprites/firstroom.jpeg"), new Hitbox[] {
+            new RoomBase(new Sprite(-1, "Sprites/RuinsSprites/secondroom.jpeg"), new Hitbox[] {
             // public Hitbox(PVector originPoint, int xBound, int yBound, int collideMask, int ignoreMask, PVector offset) {
                 
             // CAMERA BOUNDS
