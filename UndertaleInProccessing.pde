@@ -81,7 +81,7 @@ Hitbox[] worldToBoxes(ArrayList<GameObject> theWorld) {
 }
 
 boolean checkCollisions(GameObject object, String certainMetaData) {
-    Hitbox[] hitboxes = worldToBoxes(gameWorld);
+    Hitbox[] hitboxes = currentGameRoom.getRoom().getMyHitboxes();
     if (object.hasMultipleContacts()) {
         for (Hitbox box : object.getMyHitboxes()) {
             for (Hitbox otherBox : hitboxes) {
