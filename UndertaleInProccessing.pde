@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.function.Supplier;
 
 // Hitbox Layers:
 // 0 is Player

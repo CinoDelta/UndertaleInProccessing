@@ -1,9 +1,9 @@
-
 public class Event {
     private final Runnable event;
     private final int startDelayMiliSeconds;
     private final int endDelayMiliSeconds;
     private final String name;
+    private final Supplier<Boolean> startCondition;
     private boolean isFinished;
     
 
@@ -16,20 +16,40 @@ public class Event {
     }
 
     public Event(String name, float startDelaySeconds, Runnable event, float endDelaySeconds) {
-        this.event = event;
         endDelayMiliSeconds = (int) endDelaySeconds * 1000;
         startDelayMiliSeconds = (int) startDelaySeconds * 1000;
         isFinished = false;
+        startCondition = () -> true;
         this.name = name;
+        this.event = () -> {
+                delay(startDelayMiliSeconds);
+                event.run();
+                delay(endDelayMiliSeconds);
+                isFinished = true;
+        };
     }
 
+    public Event(String name, Supplier<Boolean> startCondition, Runnable event) {
+        endDelayMiliSeconds = 0;
+        startDelayMiliSeconds = 0;
+        isFinished = false;
+        this.name = name;
+        this.startCondition = startCondition;
+        this.event = () -> {
+                if (startCondition.get() && !isFinished) {
+                    delay(startDelayMiliSeconds);
+                    event.run();
+                    delay(endDelayMiliSeconds);
+                    isFinished = true;
+                } else {
+                    schedule(); // reschedules until start condition met
+                }
 
+        };
+    }
 
     public void start() {
-        delay(startDelayMiliSeconds);
         event.run();
-        delay(endDelayMiliSeconds);
-        isFinished = true;
     }
 
     public Event schedule() {
@@ -47,5 +67,9 @@ public class Event {
 
     public String getname() {
         return name;
+    }
+
+    public boolean isSchedualed() {
+        return eventSequence.contains(this);
     }
 }
