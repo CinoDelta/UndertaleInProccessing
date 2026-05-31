@@ -1,18 +1,19 @@
-public class Attack {
-    private final Event attack;
-    private final int TRIANGLESWOOP = 0;
-    private final int CIRCULAR = 1;
+public class Attack extends Event {
+    int triangleSwoop = 0;
+    int circiular = 1;
 
-    public Attack(Sprite sprite, int attackMode) {
-        attack = new Event("Attack " + attackMode, this::runAttack);
-
-    }
-
-    private void runAttack() {
-        
-    }
-
-    public void attack() { 
-        if (!attack.isSchedualed()) attack.schedule();
+    public Attack(int mode) {
+        super("Battle in mode " + mode, 
+        () -> {
+            switch(mode) {
+                case 0:
+                 // Create game objects with pvectors in random down facing directions, set parent to string "Projectile"
+                
+                break;
+                    
+                case 1:
+                break;
+            }
+        });
     }
 }

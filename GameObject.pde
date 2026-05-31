@@ -10,7 +10,8 @@ public abstract class GameObject {
     private boolean removeMyself = false;
     private PVector direction;
     private boolean multipleContacts = false;
-
+    private final Event addToGameWorld;
+    private final Event removeFromGameWorld;
 
     public GameObject(Sprite mySprite, Hitbox myHitbox, PVector myPosition, boolean isVisible, String cameraMode, String myParent) {
         this.mySprite = mySprite;
@@ -21,8 +22,9 @@ public abstract class GameObject {
         this.myParent = myParent;
 
         direction = new PVector();
-
-        gameWorld.add(this);
+        addToGameWorld = new Event("Add object to world", () -> gameWorld.add(this));
+        removeFromGameWorld= new Event("Add object to world", () -> gameWorld.remove(this));
+        addToGameWorld.schedule();
     }
 
     public GameObject(Sprite mySprite, Hitbox[] myHitboxes, PVector myPosition, boolean isVisible, String cameraMode, String myParent) {
@@ -37,24 +39,29 @@ public abstract class GameObject {
         
         direction = new PVector();
 
-        gameWorld.add(this);
+        addToGameWorld = new Event("Add object to world", () -> gameWorld.add(this));
+        removeFromGameWorld= new Event("Add object to world", () -> gameWorld.remove(this));
+        addToGameWorld.schedule();
     }
 
     // specifically for rooms, which cannot be auto-added to the game world upon creation due to how the room loading system works.
-    public GameObject(Sprite mySprite, Hitbox[] myHitboxes, PVector myPosition, boolean isVisible, String cameraMode, String myParent, boolean addToGameWorld) {
+    public GameObject(Sprite mySprite, Hitbox[] myHitboxes, PVector myPosition, boolean isVisible, String cameraMode, String myParent, boolean shouldAddToGameWorld) {
         this.mySprite = mySprite;
         this.myHitboxes = myHitboxes;
         this.myPosition = myPosition;
         this.isVisible = isVisible;
         this.cameraMode = cameraMode;
         this.myParent = myParent;
-
+            
         multipleContacts = true;
         
         direction = new PVector();
 
-        if (addToGameWorld) {
-            gameWorld.add(this);
+        addToGameWorld = new Event("Add object to world", () -> gameWorld.add(this));
+        removeFromGameWorld= new Event("Add object to world", () -> gameWorld.remove(this));
+
+        if (shouldAddToGameWorld) {
+            addToGameWorld.schedule();
         }
     }
 
@@ -70,10 +77,10 @@ public abstract class GameObject {
         
         direction = new PVector();
 
-
-        gameWorld.add(this);
+        addToGameWorld = new Event("Add object to world", () -> gameWorld.add(this));
+        removeFromGameWorld= new Event("Add object to world", () -> gameWorld.remove(this));
+        addToGameWorld.schedule();
     }
-
 
     public PVector getPosition() {
         return myPosition;
@@ -92,7 +99,11 @@ public abstract class GameObject {
     }
 
     public void remove() {
-        gameWorld.remove(this);
+        removeFromGameWorld.schedule();
+    }
+
+    public void addToGameWorld() {
+        addToGameWorld.schedule();
     }
 
     public void changeImage(String path) {
@@ -107,6 +118,9 @@ public abstract class GameObject {
         return myHitbox;
     }
 
+    public String getParent() {
+        return myParent;
+    }
     public void update() {
         float relativeX = myPosition.x - mainCam.CFrame.x;
         float relativeY = myPosition.y - mainCam.CFrame.y;

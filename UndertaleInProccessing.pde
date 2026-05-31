@@ -11,6 +11,8 @@ int hitboxTransparency = 40; // 255 for opaque hitboxes, 0 for invisible hitboxe
 public RoomOne roomOne;
 public RoomTwo roomTwo;
 Room currentGameRoom;
+BattleScene activeScene;
+public final FlowerThing flowerThing = new FlowerThing();
 
 public static final ArrayList<Room> rooms = new ArrayList<Room>();
 public ArrayDeque<Event> eventSequence = new ArrayDeque<Event>();

@@ -23,6 +23,7 @@ public class BattleScene {
             for (Event scene : scenes) {
                 scene.schedule();
             }
+            started = true;
         }
     }
 
@@ -30,23 +31,49 @@ public class BattleScene {
         sceneIndex++;
     }
 
-
 }
 
-public class Battle extends Event {
-    int triangleSwoop = 0;
-    int circiular = 1;
 
-    public Battle(int mode, NPC hostile) {
-        super("Battle with " + hostile.toString() + " in mode " + mode, 
-        () -> {
-            switch(mode) {
-                case 0:
-                break;
-                    
-                case 1:
-                break;
-            }
-        });
+
+public class BattleOne extends BattleScene {
+    public BattleOne() {
+        super(
+            flowerThing, 
+            new Event(
+                "Dialouge one", 
+                () -> {
+
+                }
+            ),
+            new Event(
+                "Dialouge Two", 
+                () -> {
+
+                }
+            ),
+            new Event(
+                "Dialouge Three", 
+                () -> {
+
+                }
+            ),
+            new Event(
+                "Dialouge Four", 
+                () -> {
+
+                }
+            ),
+            new Attack(1),
+            new Event(
+                "Start Attack", 
+                () -> { 
+                    // for (GameObject object : gameWorld) {
+                    //     if (object.getParent().equals("Projectile")) {
+                    //         object.setDirection(new PVector());
+                    //     }
+                    // }
+                }
+            )
+        );
     }
 }
