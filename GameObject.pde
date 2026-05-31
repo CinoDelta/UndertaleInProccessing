@@ -25,6 +25,19 @@ public abstract class GameObject {
         gameWorld.add(this);
     }
 
+    // specifically for text objects, and dialogue which don't have sprites or hitboxes.
+
+    public GameObject(PVector myPosition, boolean isVisible, String cameraMode, int zIndex) {
+        this.myPosition = myPosition;
+        this.isVisible = isVisible;
+        this.cameraMode = cameraMode;
+        this.mySprite = new Sprite(zIndex);
+
+        direction = new PVector();
+
+        gameWorld.add(this);
+    }
+
     public GameObject(Sprite mySprite, Hitbox[] myHitboxes, PVector myPosition, boolean isVisible, String cameraMode, String myParent) {
         this.mySprite = mySprite;
         this.myHitboxes = myHitboxes;
@@ -108,6 +121,9 @@ public abstract class GameObject {
     }
 
     public void update() {
+        if (!isVisible) {
+            return;
+        }
         float relativeX = myPosition.x - mainCam.CFrame.x;
         float relativeY = myPosition.y - mainCam.CFrame.y;
 
@@ -129,12 +145,16 @@ public abstract class GameObject {
                 if (box.debug) {
                     // drawing a debug rectangle yippe.
                     
+                    strokeWeight(1);
                     if (box.metaData == "WALL") {
                       fill(0, 125, 255, hitboxTransparency + 50);
+                    }else if (box.metaData.contains("CUTSCENE")) {
+                      fill(255, 255, 0, hitboxTransparency + 50);
                     } else {
                       fill(255, 0, 0, hitboxTransparency);
                     }
                     rect(box.originPoint.x + box.getOffset().x, box.originPoint.y + box.getOffset().y, box.getXBound(), box.getYBound());
+                    strokeWeight(0);
                 }
             }
         }

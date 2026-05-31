@@ -30,7 +30,7 @@ class Player extends GameObject {
     * 'N' for neutral (no movement)
     */
     public void setDirection(PVector newDirection) {
-        this.direction = newDirection.mult((float) speed);
+        this.direction = newDirection.mult((float) speed * 1.6);
 
         boolean playerCollidingWithCameraUp = !checkCollisions(mainPlayer, "CUP");
         boolean playerCollidingWithCameraLeft = !checkCollisions(mainPlayer, "CLR");
@@ -45,6 +45,8 @@ class Player extends GameObject {
             mainCam.CFrame = mainCam.CFrame.add(new PVector(this.direction.x, 0));
             adjustedDirection.x = 0;
         }
+
+        
 
         super.setPosition(getPosition().add(adjustedDirection));
     }
@@ -62,12 +64,12 @@ class Player extends GameObject {
         }
 
         if (direction.mag() > 0) {
-            if (Math.abs(direction.x) == 2) { // if we are holding left or right, the left and right animations take priority.
-                facing = direction.x == -2 ? "Left" : "Right";
+            if (Math.abs(direction.x) >= 2) { // if we are holding left or right, the left and right animations take priority.
+                facing = direction.x <= -2 ? "Left" : "Right";
                 super.changeImage("Sprites/Frisk/Frisk" + facing + currentAnimationTick % 12 / 6 + ".png");
             } else {
                 // if we are just moving up and down
-                facing = direction.y == -2 ? "Up" : "Down";
+                facing = direction.y <= -2 ? "Up" : "Down";
                 super.changeImage("Sprites/Frisk/Frisk" + facing + currentAnimationTick % 24 / 6 + ".png");
             }
 

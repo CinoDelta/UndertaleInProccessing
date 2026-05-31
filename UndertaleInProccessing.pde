@@ -1,4 +1,5 @@
 import java.util.*;
+import processing.sound.*;
 
 // Hitbox Layers:
 // 0 is Player
@@ -9,11 +10,15 @@ Camera mainCam;
 int hitboxTransparency = 40; // 255 for opaque hitboxes, 0 for invisible hitboxes. Adjust as needed for debugging.
 public RoomOne roomOne;
 public RoomTwo roomTwo;
+boolean continueDialogue = false;
+boolean inDialogue = false;
 Room currentGameRoom;
+PApplet sketch = this;
+SoundFile help;
 
 public static final ArrayList<Room> rooms = new ArrayList<Room>();
 public ArrayDeque<Event> eventSequence = new ArrayDeque<Event>();
-
+private SoundFile m;
 // ROOMS: 
 
 GameObject[] merge(GameObject[] left, GameObject[] right) {
@@ -40,7 +45,12 @@ GameObject[] merge(GameObject[] left, GameObject[] right) {
     return newArray;
 }
 
-
+SoundFile loadSoundFile(String path) {
+    print("Attempting to load sound file: " + path);
+    SoundFile sound = new SoundFile(this, path);
+    print("Loaded sound file: " + path);
+    return sound;
+}
 
 
 GameObject[] mergeSort(GameObject[] data){
@@ -130,6 +140,25 @@ Hitbox[] collidingWalls(GameObject object) {
    
 }
 
+Hitbox executeCutscene(GameObject object) {
+  // here we are looking for hitboxes with the "CUTSCENE" meta data, and returning the first cutscene hitbox that we are colliding with.
+   Hitbox[] boxesToCheck = currentGameRoom.getRoom().getMyHitboxes();
+   Hitbox cutsceneHitbox = null;
+   
+   for(Hitbox box : boxesToCheck) {
+     if (box.metaData.contains("CUTSCENE")) {
+      if (object.getMyHitbox() != box && object.getMyHitbox().canCollideWith(box)) {
+            if (object.getMyHitbox().isColidingWith(box)) {
+              cutsceneHitbox = box;
+              break;
+          }
+      }
+     }
+   }
+   
+    return cutsceneHitbox;
+}
+
 
 
 void sortWorldByZ() {
@@ -150,12 +179,16 @@ void setup() {
     size(640, 440);
     background(255,255,255);
     frameRate(30);
+    PFont myFont = loadFont("PixelOperatorMonoHB-48.vlw");
+    textFont(myFont);
     mainPlayer = new Player(new Sprite(1, "Sprites/Frisk/FriskDown0.png"), new Hitbox(14, 10, 0, 1, new PVector(3, 18), "PLR"), new PVector(140, 90), true, "BORDER_M", "", 1);
     roomOne = new RoomOne();
     roomTwo = new RoomTwo();
     rooms.add(roomOne);
     rooms.add(roomTwo);
     currentGameRoom = roomOne;
+
+    help = new SoundFile(sketch, "Sounds/Flowey/snd_floweytalk1.wav");
 
     // FIRST ROOM (plan to move this to a room loading function that loads and removes rooms, and move these rooms to an interface.
     // for(Sprite sprite : sprites) {
@@ -197,6 +230,16 @@ boolean upPressed = false;
 boolean downPressed = false;
 boolean rightPressed = false;
 boolean leftPressed = false; 
+
+public void flower() {
+    print("Cutscene triggered");
+    //PVector myPosition, boolean isVisible, String cameraMode
+    Dialogue floweyDialogue = new Dialogue(new PVector(22, 10), true, "BORDER_M");
+    inDialogue = true;
+    floweyDialogue.startDialogue(0, true);
+}
+
+
 
 void draw() {
     scale(2);
@@ -252,7 +295,12 @@ void draw() {
       }
     }
            
-    
+    if (inDialogue) {
+        upPressed = false;
+        downPressed = false;
+        rightPressed = false;
+        leftPressed = false;
+    }
     currentPlayerDirection = upPressed ? PVector.add(currentPlayerDirection, new PVector(0,  -0.1 * hitNull[2])) : currentPlayerDirection;
     currentPlayerDirection = downPressed ? PVector.add(currentPlayerDirection, new PVector(0, 0.1 * hitNull[3])) : currentPlayerDirection;
     currentPlayerDirection = leftPressed ? PVector.add(currentPlayerDirection, new PVector(-0.1 * hitNull[0], 0)) : currentPlayerDirection;
@@ -262,6 +310,15 @@ void draw() {
 
     for (int i = 0; i < gameWorld.size(); i ++) {
         gameWorld.get(i).update();
+    }
+
+    Hitbox possibleCutsceneHitbox = executeCutscene(mainPlayer);
+    if (possibleCutsceneHitbox != null) {
+      Hitbox cutsceneHitbox = possibleCutsceneHitbox;
+      if (cutsceneHitbox.metaData.equals("CUTSCENE_1")) {
+        cutsceneHitbox.setMetaData("CUTSCENE_DONE");
+        thread("flower");
+      }
     }
 
     executeEvents();
@@ -307,6 +364,11 @@ public void keyPressed() {
         case 'p':
             print("Global Position: " + (mainPlayer.getMyHitbox().originPoint.x + mainCam.CFrame.x) + ", " + (mainPlayer.getMyHitbox().originPoint.y + mainCam.CFrame.y));
             break;
+        case 'z':
+            if (inDialogue) {
+                continueDialogue = true;
+            }
+            break;
     }
 }
 
@@ -339,6 +401,9 @@ public void keyReleased() {
             break;
         case 's':
             downPressed = false;
+            break;
+        case 'z':
+            continueDialogue = false;
             break;
     }
 }
