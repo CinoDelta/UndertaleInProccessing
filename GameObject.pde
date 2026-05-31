@@ -152,6 +152,10 @@ public abstract class GameObject {
                 }
             }
         }
+
+        if (myParent.equals("Projectile") && myHitbox.isColidingWith(mainPlayer.getMyHitbox())) {
+            mainPlayer.takeDamage(1);
+        }
     }
 
     private void addVector(PVector toAdd) {

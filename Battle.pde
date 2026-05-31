@@ -1,4 +1,4 @@
-public class BattleScene {
+public abstract class BattleScene {
     private final NPC enemy;
     private boolean started;
     private Event[] scenes;
@@ -6,20 +6,23 @@ public class BattleScene {
 
 
 
-    public BattleScene(NPC enemy, Event... scenes ) {
+    public BattleScene(NPC enemy) {
         this.enemy = enemy; 
         sceneIndex = 0;
         started = false;
+    }
+
+    public void defineSequence(Event... events) {
+        this.scenes = events;
         for (int i = 0; i< scenes.length; i++) {
             int index = i;
-            scenes[i] = new Event(scenes[i].getname(), () -> sceneIndex == index, scenes[i].getEvent() );
+            scenes[i] = new Event(scenes[i].getname(), () -> sceneIndex == index && scenes[index].getStartCriteria().get() , scenes[i].getEvent() );
         }
         
-
     }
 
     public void start() {
-        if (!started) {
+        if (!started && scenes != null) {
             for (Event scene : scenes) {
                 scene.schedule();
             }
@@ -38,7 +41,14 @@ public class BattleScene {
 public class BattleOne extends BattleScene {
     public BattleOne() {
         super(
-            flowerThing, 
+            flowerThing);
+        defineSequence( 
+            new Event(
+                "Load scene", 
+                () -> {
+
+                }
+            ),
             new Event(
                 "Dialouge one", 
                 () -> {
@@ -67,13 +77,31 @@ public class BattleOne extends BattleScene {
             new Event(
                 "Start Attack", 
                 () -> { 
-                    // for (GameObject object : gameWorld) {
-                    //     if (object.getParent().equals("Projectile")) {
-                    //         object.setDirection(new PVector());
-                    //     }
-                    // }
+                    for (GameObject object : gameWorld) {
+                        if (object.getParent().equals("Projectile")) {
+                            object.setDirection(new PVector()); // TODO: make facing player
+                        } 
+                    }
+                }
+            ),
+            new Event(
+                "Start Attack", 
+                () -> { 
+                    for (GameObject object : gameWorld) {
+                        if (object.getParent().equals("Projectile")) {
+                            object.setDirection(new PVector()); // TODO: make facing player
+                        } 
+                    }
+                }
+            ),
+            new Event(
+                "post fight Dialouge 1 ",
+                () -> true, // Check that fight is over
+                () -> {
+
                 }
             )
         );
     }
+
 }

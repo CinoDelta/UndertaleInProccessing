@@ -43,9 +43,6 @@ GameObject[] merge(GameObject[] left, GameObject[] right) {
     return newArray;
 }
 
-
-
-
 GameObject[] mergeSort(GameObject[] data){
     if (data.length > 1) {
         // Hi we split data in half.
@@ -327,6 +324,11 @@ public void keyReleased() {
         break;
     case DOWN:
         downPressed = false;
+        break;
+    case ENTER:
+        if (activeScene != null) {
+            activeScene.advance();
+        }
         break;
     }
 

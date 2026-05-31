@@ -52,6 +52,7 @@ class Player extends GameObject {
    
     public void takeDamage(float damage) {
         health -= damage;
+        health = Math.max(health, 1);
     }
 
     @Override

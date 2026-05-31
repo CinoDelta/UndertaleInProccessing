@@ -4,6 +4,7 @@ public class Event {
     private final int endDelayMiliSeconds;
     private final String name;
     private final Supplier<Boolean> startCondition;
+    private Supplier<Boolean> isFinishedCondition;
     private boolean isFinished;
     
 
@@ -21,6 +22,7 @@ public class Event {
         isFinished = false;
         startCondition = () -> true;
         this.name = name;
+        isFinishedCondition = () -> isFinished;
         this.event = () -> {
                 delay(startDelayMiliSeconds);
                 event.run();
@@ -35,8 +37,9 @@ public class Event {
         isFinished = false;
         this.name = name;
         this.startCondition = startCondition;
+        isFinishedCondition = () -> isFinished;
         this.event = () -> {
-                if (startCondition.get() && !isFinished) {
+                if (startCondition.get() && !isFinishedCondition.get()) {
                     delay(startDelayMiliSeconds);
                     event.run();
                     delay(endDelayMiliSeconds);
@@ -48,6 +51,11 @@ public class Event {
         };
     }
 
+    public Event withFinishedCritera(Supplier<Boolean> criteria) {
+        this.isFinishedCondition = criteria;
+        return this;
+    }
+
     public void start() {
         event.run();
     }
@@ -55,8 +63,7 @@ public class Event {
     public Event schedule() {
         eventSequence.push(this);
         return this;
-    }
-
+    } 
 
     public Runnable getEvent() {
         return event;
@@ -67,6 +74,10 @@ public class Event {
 
     public String getname() {
         return name;
+    }
+
+    public Supplier<Boolean> getStartCriteria() {
+        return this.startCondition;
     }
 
     public boolean isSchedualed() {
