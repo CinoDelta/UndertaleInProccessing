@@ -37,7 +37,9 @@ public abstract class GameObject {
 
         direction = new PVector();
 
-        gameWorld.add(this);
+        addToGameWorld = new Event("Add object to world", () -> gameWorld.add(this));
+        removeFromGameWorld= new Event("Add object to world", () -> gameWorld.remove(this));
+        addToGameWorld.schedule();
     }
 
     public GameObject(Sprite mySprite, Hitbox[] myHitboxes, PVector myPosition, boolean isVisible, String cameraMode, String myParent) {
