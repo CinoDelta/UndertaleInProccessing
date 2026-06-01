@@ -12,7 +12,7 @@ public RoomOne roomOne;
 public RoomTwo roomTwo;
 Room currentGameRoom;
 BattleScene activeScene;
-public final FlowerThing flowerThing = new FlowerThing();
+public FlowerThing flowerThing;
 
 public static final ArrayList<Room> rooms = new ArrayList<Room>();
 public ArrayDeque<Event> eventSequence = new ArrayDeque<Event>();
@@ -160,7 +160,7 @@ void setup() {
     // FIRST ROOM (plan to move this to a room loading function that loads and removes rooms, and move these rooms to an interface.
     // for(Sprite sprite : sprites) {
     //     sprite.setImage(sprite.getImagePath());
-    //     print(sprite.getImagePath());
+    //     print(sprite.getImagePath());f
     // }
 
     // the game's camera.
@@ -188,6 +188,7 @@ void setup() {
     
     // FIRST ROOM (plan to move this to a room loading function that loads and removes rooms, and move these rooms to an interface.
 
+    flowerThing = new FlowerThing();
 
 }
 
