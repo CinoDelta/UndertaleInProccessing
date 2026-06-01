@@ -4,6 +4,7 @@ public class Door extends GameObject{
     private boolean canSwitch; 
     private int currentid;
     private int nextid;
+    
     // private static int doorNum = 0;
 
     public Door (PVector initlocation, PVector nextLocation, int currentid, int nextid, Hitbox myHitbox) {

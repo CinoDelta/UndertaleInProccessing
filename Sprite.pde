@@ -10,6 +10,10 @@ public class Sprite {
         img = loadImage(path);
     }
 
+    public Sprite(int zIndex) {
+        this.zIndex = zIndex;
+    }
+
     public PImage getImage() {
         return img;
     }
