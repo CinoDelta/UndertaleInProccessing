@@ -27,7 +27,7 @@ public abstract class  NPC extends GameObject {
 
 public class FlowerThing extends NPC {
     public FlowerThing() {
-        super("", new Sprite(-2, ""), new Hitbox(0, 0, 0, 0, new PVector(), ""), new PVector(), true, "", "", 100, 100); // TODO: implament this constructor
+        super("flr", new Sprite(3, ""), new Hitbox(0, 0, 0, 0, new PVector(), ""), new PVector(), true, "", "", 100, 100); // TODO: implament this constructor
     }
 
     @Override 
