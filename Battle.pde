@@ -42,66 +42,66 @@ public class BattleOne extends BattleScene {
     public BattleOne() {
         super(
             flowerThing);
-        defineSequence( 
-            new Event(
-                "Load scene", 
-                () -> {
+        // defineSequence( 
+        //     new Event(
+        //         "Load scene", 
+        //         () -> {
 
-                }
-            ),
-            new Event(
-                "Dialouge one", 
-                () -> {
+        //         }
+        //     ),
+        //     new Event(
+        //         "Dialouge one", 
+        //         () -> {
 
-                }
-            ),
-            new Event(
-                "Dialouge Two", 
-                () -> {
+        //         }
+        //     ),
+        //     new Event(
+        //         "Dialouge Two", 
+        //         () -> {
 
-                }
-            ),
-            new Event(
-                "Dialouge Three", 
-                () -> {
+        //         }
+        //     ),
+        //     new Event(
+        //         "Dialouge Three", 
+        //         () -> {
 
-                }
-            ),
-            new Event(
-                "Dialouge Four", 
-                () -> {
+        //         }
+        //     ),
+        //     new Event(
+        //         "Dialouge Four", 
+        //         () -> {
 
-                }
-            ),
-            new Attack(1),
-            new Event(
-                "Start Attack", 
-                () -> { 
-                    for (GameObject object : gameWorld) {
-                        if (object.getParent().equals("Projectile")) {
-                            object.setDirection(new PVector()); // TODO: make facing player
-                        } 
-                    }
-                }
-            ),
-            new Event(
-                "Start Attack", 
-                () -> { 
-                    for (GameObject object : gameWorld) {
-                        if (object.getParent().equals("Projectile")) {
-                            object.setDirection(new PVector()); // TODO: make facing player
-                        } 
-                    }
-                }
-            ),
-            new Event(
-                "post fight Dialouge 1 ",
-                () -> true, // Check that fight is over
-                () -> {
+        //         }
+        //     ),
+        //     new Attack(1),
+        //     new Event(
+        //         "Start Attack", 
+        //         () -> { 
+        //             for (GameObject object : gameWorld) {
+        //                 if (object.getParent().equals("Projectile")) {
+        //                     object.setDirection(new PVector()); // TODO: make facing player
+        //                 } 
+        //             }
+        //         }
+        //     ),
+        //     new Event(
+        //         "Start Attack", 
+        //         () -> { 
+        //             for (GameObject object : gameWorld) {
+        //                 if (object.getParent().equals("Projectile")) {
+        //                     object.setDirection(new PVector()); // TODO: make facing player
+        //                 } 
+        //             }
+        //         }
+        //     ),
+        //     new Event(
+        //         "post fight Dialouge 1 ",
+        //         () -> true, // Check that fight is over
+        //         () -> {
 
-                }
-            )
-        );
+        //         }
+        //     )
+        // );
     }
 
 }
