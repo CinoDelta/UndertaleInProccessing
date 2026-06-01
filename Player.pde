@@ -9,7 +9,7 @@ class Player extends GameObject {
     private int currentAnimationTick = 0;
     private String facing = "Down";
     private String lastFacing = "Down";    
-    
+    private float health;
 
     public Player(Sprite mySprite, Hitbox myHitbox, PVector myPosition, boolean isVisible, String cameraMode, String myParent, int zIndex) {
         super(mySprite,  myHitbox, myPosition, isVisible, cameraMode, myParent);
@@ -19,6 +19,7 @@ class Player extends GameObject {
         direction = new PVector();
         this.zIndex = zIndex;
         this.myParent = myParent;
+        health = 20;
     }
 
     /**
@@ -51,8 +52,12 @@ class Player extends GameObject {
         super.setPosition(getPosition().add(adjustedDirection));
     }
    
+    public void takeDamage(float damage) {
+        health -= damage;
+        health = Math.max(health, 1);
+    }
+
     @Override
-    
     // the animation handler
     public void update() {
         if (!super.multipleContacts) {

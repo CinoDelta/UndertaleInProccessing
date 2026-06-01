@@ -107,7 +107,7 @@ public class RoomOne extends Room{
 public class RoomTwo extends Room{
     public RoomTwo() {
         super(
-            new RoomBase(new Sprite(-1, "Sprites/RuinsSprites/secondRoom.jpeg"), new Hitbox[] {
+            new RoomBase(new Sprite(-1, "Sprites/RuinsSprites/secondroom.jpeg"), new Hitbox[] {
             // public Hitbox(PVector originPoint, int xBound, int yBound, int collideMask, int ignoreMask, PVector offset) {
                 
             // CAMERA BOUNDS

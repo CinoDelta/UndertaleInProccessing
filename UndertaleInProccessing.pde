@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.function.Supplier;
 import processing.sound.*;
 
 // Hitbox Layers:
@@ -13,6 +14,8 @@ public RoomTwo roomTwo;
 boolean continueDialogue = false;
 boolean inDialogue = false;
 Room currentGameRoom;
+BattleScene activeScene;
+public FlowerThing flowerThing;
 PApplet sketch = this;
 SoundFile help;
 
@@ -193,7 +196,7 @@ void setup() {
     // FIRST ROOM (plan to move this to a room loading function that loads and removes rooms, and move these rooms to an interface.
     // for(Sprite sprite : sprites) {
     //     sprite.setImage(sprite.getImagePath());
-    //     print(sprite.getImagePath());
+    //     print(sprite.getImagePath());f
     // }
 
     // the game's camera.
@@ -221,6 +224,7 @@ void setup() {
     
     // FIRST ROOM (plan to move this to a room loading function that loads and removes rooms, and move these rooms to an interface.
 
+    flowerThing = new FlowerThing();
 
 }
 
@@ -386,6 +390,11 @@ public void keyReleased() {
         break;
     case DOWN:
         downPressed = false;
+        break;
+    case ENTER:
+        if (activeScene != null) {
+            activeScene.advance();
+        }
         break;
     }
 
