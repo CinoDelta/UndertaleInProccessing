@@ -46,9 +46,15 @@ public class Dialogue extends GameObject {
             while (!continueDialogue) {
                 talking = false;
                 delay(10);
+                if (dialogueIndex != globalDialogueIndex) {
+                    continueDialogue = true;
+                    dialogueIndex++;
+                    globalDialogueIndex = dialogueIndex;
+                }
             }
             continueDialogue = false;
         }
+
 
         inDialogue = false;
         this.remove();

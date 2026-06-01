@@ -17,6 +17,7 @@ Room currentGameRoom;
 BattleScene activeScene;
 public FlowerThing flowerThing;
 PApplet sketch = this;
+int globalDialogueIndex = 0;
 // SoundFile help;
 
 public static final ArrayList<Room> rooms = new ArrayList<Room>();
@@ -240,7 +241,7 @@ public void flower() {
     //PVector myPosition, boolean isVisible, String cameraMode
     Dialogue floweyDialogue = new Dialogue(new PVector(22, 10), true, "BORDER_M");
     inDialogue = true;
-    floweyDialogue.startDialogue(0, true);
+    floweyDialogue.startDialogue(globalDialogueIndex, true);
 }
 
 
@@ -348,6 +349,8 @@ public void keyPressed() {
         case DOWN:
             downPressed = true;
             break;
+        case ENTER:
+            globalDialogueIndex++;
     }
 
 

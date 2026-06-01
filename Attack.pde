@@ -1,20 +1,16 @@
-public class Attack extends Event {
+public class Attack {
     int triangleSwoop = 0;
     int circiular = 1;
+    private final int mode;
+    private final ArrayList<GameObject> preGameWorld;
 
     public Attack(int mode) {
-        super("Battle in mode " + mode, 
-        () -> {
-            switch(mode) {
-                case 0:
-                 // Create game objects with pvectors in random down facing directions, set parent to string "Projectile"
-                
-                break;
-                    
-                case 1:
-                break;
-            }
-        });
+        this.mode = mode;
+        preGameWorld = gameWorld;
+    }
+
+    public void load() {
+        gameWorld.clear();
     }
 
     
