@@ -1,6 +1,6 @@
 import java.util.*;
 import java.util.function.Supplier;
-import processing.sound.*;
+// import processing.sound.*;
 
 // Hitbox Layers:
 // 0 is Player
@@ -17,11 +17,11 @@ Room currentGameRoom;
 BattleScene activeScene;
 public FlowerThing flowerThing;
 PApplet sketch = this;
-SoundFile help;
+// SoundFile help;
 
 public static final ArrayList<Room> rooms = new ArrayList<Room>();
 public ArrayDeque<Event> eventSequence = new ArrayDeque<Event>();
-private SoundFile m;
+// private SoundFile m;
 // ROOMS: 
 
 GameObject[] merge(GameObject[] left, GameObject[] right) {
@@ -48,12 +48,12 @@ GameObject[] merge(GameObject[] left, GameObject[] right) {
     return newArray;
 }
 
-SoundFile loadSoundFile(String path) {
-    print("Attempting to load sound file: " + path);
-    SoundFile sound = new SoundFile(this, path);
-    print("Loaded sound file: " + path);
-    return sound;
-}
+// SoundFile loadSoundFile(String path) {
+//     print("Attempting to load sound file: " + path);
+//     SoundFile sound = new SoundFile(this, path);
+//     print("Loaded sound file: " + path);
+//     return sound;
+// }
 
 
 GameObject[] mergeSort(GameObject[] data){
@@ -191,7 +191,7 @@ void setup() {
     rooms.add(roomTwo);
     currentGameRoom = roomOne;
 
-    help = new SoundFile(sketch, "Sounds/Flowey/snd_floweytalk1.wav");
+    // help = new SoundFile(sketch, "Sounds/Flowey/snd_floweytalk1.wav");
 
     // FIRST ROOM (plan to move this to a room loading function that loads and removes rooms, and move these rooms to an interface.
     // for(Sprite sprite : sprites) {

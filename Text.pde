@@ -1,14 +1,14 @@
-import processing.sound.*;
+// import processing.sound.*;
 public class Text extends GameObject {
     private String text;
     private color myColor;
 
     
-    private SoundFile[][] dialogueSounds = new SoundFile[][] {
-        {
+    // private SoundFile[][] dialogueSounds = new SoundFile[][] {
+    //     {
             
-        }
-    };
+    //     }
+    // };
 
     public Text(PVector myPosition, boolean isVisible, String text, color myColor) {
         //Sprite mySprite, Hitbox myHitbox, PVector myPosition, boolean isVisible, String cameraMode, String myParent
@@ -59,7 +59,7 @@ public class Text extends GameObject {
                 text += "* "; // add a star at the beginning of each new line
             }
             //print(Arrays.deepToString(dialogueSounds));
-            help.play();
+            // help.play();
             delay(c == '!' || c == '.' || c == '?' ? 500 : c == ',' ? 300 : 40);
         }
     }

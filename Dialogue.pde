@@ -1,4 +1,4 @@
-import processing.sound.*;
+// import processing.sound.*;
 public class Dialogue extends GameObject {
     //PVector myPosition, boolean isVisible, String cameraMode)
 
